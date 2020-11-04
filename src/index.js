@@ -14,7 +14,7 @@ const gameConfig = {
       fps: 60,
       debug: true,
       gravity: {
-        y: 0,
+        y: 300,
       },
     },
   },

@@ -9,10 +9,6 @@ module.exports = {
   devServer: {
     // open: true,
   },
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
   module: {
     rules: [
       {
@@ -30,13 +26,8 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new webpack.DefinePlugin({
-      CANVAS_RENDERER: JSON.stringify(true),
-      WEBGL_RENDERER: JSON.stringify(true)
-    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      cache: false,
     }),
   ]
 };

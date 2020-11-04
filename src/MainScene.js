@@ -24,36 +24,21 @@ export class MainScene extends Scene {
 
   createShip() {
     this.ship = new Ship(this);
-    // this.ship.setAngle()
   }
 
   update() {
-    console.log(`ship rotation: ${this.ship.rotation}`);
     if (this.movementKeys.up.isDown) {
-      // this.ship.setY(this.ship.y - 1);
-      // this.ship.setVelocityY(-100);
-      this.physics.velocityFromRotation(
-        this.ship.rotation,
-        300,
-        this.ship.body.acceleration
-      );
-    } else if (this.movementKeys.down.isDown) {
-      this.physics.velocityFromRotation(
-        this.ship.rotation,
-        -300,
-        this.ship.body.acceleration
-      );
+      this.ship.thrusterUp();
     } else {
-      // this.ship.setVelocityY(0);
-      this.ship.setAcceleration(0);
+      this.ship.thrusterOff();
     }
 
     if (this.movementKeys.left.isDown) {
-      this.ship.setAngularVelocity(-150);
+      this.ship.thrusterLeft();
     } else if (this.movementKeys.right.isDown) {
-      this.ship.setAngularVelocity(150);
+      this.ship.thrusterRight();
     } else {
-      this.ship.setAngularVelocity(0);
+      this.ship.thrusterOff();
     }
   }
 }

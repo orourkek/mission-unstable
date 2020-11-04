@@ -21,8 +21,25 @@ export class Ship extends Physics.Arcade.Image {
 
     // other properties
     this.setCollideWorldBounds(true);
-    this.setDrag(300);
-    this.setAngularDrag(400);
-    this.setMaxVelocity(600);
+    // this.setDrag(300);
+    // this.setAngularDrag(400);
+    this.setMaxVelocity(300);
+  }
+
+  thrusterUp() {
+    this.setVelocityY(-150);
+  }
+
+  thrusterRight() {
+    this.setVelocityX(300);
+  }
+
+  thrusterLeft() {
+    this.setVelocityX(-300);
+  }
+
+  thrusterOff() {
+    this.setVelocityX(0);
+    this.setAcceleration(0);
   }
 }
