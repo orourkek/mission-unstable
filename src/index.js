@@ -8,6 +8,15 @@ const gameConfig = {
   width: 800,
   height: 600,
   backgroundColor: '#eeeeee',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      fps: 60,
+      gravity: {
+        y: 0,
+      },
+    },
+  },
   scene: [
     TitleScene,
     MainScene,
