@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import shipImg from './assets/ship.png';
+import flareImg from './assets/thruster-flare.png';
 import { Ship } from './game-objects/ship';
 
 export class MainScene extends Scene {
@@ -9,6 +10,7 @@ export class MainScene extends Scene {
 
   preload() {
     this.load.image('ship', shipImg);
+    this.load.image('flare', flareImg);
   }
 
   create() {
@@ -39,6 +41,13 @@ export class MainScene extends Scene {
       this.ship.thrusterRight();
     } else {
       this.ship.thrusterOff();
+    }
+
+    // TODO: move into Ship?
+    if (this.ship.body.velocity.y < 0) {
+      this.ship.enableParticles();
+    } else {
+      this.ship.disableParticles();
     }
   }
 }

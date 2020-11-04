@@ -24,6 +24,47 @@ export class Ship extends Physics.Arcade.Image {
     // this.setDrag(300);
     // this.setAngularDrag(400);
     this.setMaxVelocity(300);
+
+    this.setupThrusterParticles();
+  }
+
+  setupThrusterParticles() {
+    const particles = this.scene.add.particles('flare');
+    this.particleEmitter = particles.createEmitter({
+      speed: 150,
+      on: false,
+      lifespan: {
+        onEmit: (particle, key, t, value) => {
+          return Phaser.Math.Percent(this.body.speed, 0, 300) * 500;
+        }
+      },
+      // TODO: tweak math so vertical (UP) motion isn't transparent
+      alpha: {
+        onEmit: (particle, key, t, value) => {
+          return Phaser.Math.Percent(this.body.speed, 0, 300);
+        }
+      },
+      angle: {
+        onEmit: (particle, key, t, value) => {
+          var v = Phaser.Math.Between(-30, 30);
+          return (this.angle - 180) + v;
+        }
+      },
+      scale: { start: 0.7, end: 0.1 },
+      x: 0,
+      y: (this.displayHeight / 2) - 15,
+      // blendMode: 'HARD_LIGHT'
+    });
+
+    this.particleEmitter.startFollow(this);
+  }
+
+  enableParticles() {
+    this.particleEmitter.start();
+  }
+
+  disableParticles() {
+    this.particleEmitter.stop();
   }
 
   thrusterUp() {
@@ -41,5 +82,6 @@ export class Ship extends Physics.Arcade.Image {
   thrusterOff() {
     this.setVelocityX(0);
     this.setAcceleration(0);
+    // this.particleEmitter.stop();
   }
 }
