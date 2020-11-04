@@ -12,6 +12,7 @@ const gameConfig = {
     default: 'arcade',
     arcade: {
       fps: 60,
+      debug: true,
       gravity: {
         y: 0,
       },
