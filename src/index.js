@@ -7,7 +7,7 @@ const gameConfig = {
   parent: 'game',
   width: 800,
   height: 600,
-  backgroundColor: '#eeeeee',
+  backgroundColor: '#0e1224',
   physics: {
     default: 'arcade',
     arcade: {
