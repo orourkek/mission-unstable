@@ -3,6 +3,7 @@ import shipImg from './assets/ship.png';
 import flareImg from './assets/thruster-flare.png';
 import backgroundImg from './assets/space.png';
 import { Ship } from './game-objects/ship';
+import { Ground } from './game-objects/ground';
 
 export class MainScene extends Scene {
   constructor(){
@@ -16,7 +17,20 @@ export class MainScene extends Scene {
   }
 
   create() {
+    this.physics.world.setBounds(
+      0,
+      0,
+      (this.game.config.width * 3),
+      (this.game.config.height * 10),
+    );
+
+    this.cameras.main.setSize(
+      this.game.config.width,
+      this.game.config.height,
+    );
+
     const bounds = this.physics.world.bounds;
+
     this.bg = this.add.tileSprite(
       bounds.centerX,
       bounds.centerY,
@@ -27,9 +41,13 @@ export class MainScene extends Scene {
     this.bg.setScrollFactor(0);
     this.bg.setScale(0.5);
 
+    this.ground = new Ground(this);
     this.ship = new Ship(this);
 
-    // this.cameras.main.startFollow(this.ship);
+    this.physics.add.collider(this.ship, this.ground);
+
+    this.cameras.main.startFollow(this.ship);
+    this.cameras.main.followOffset.set(0, 100);
 
     this.keyboard = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
