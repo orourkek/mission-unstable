@@ -27,43 +27,20 @@ export class MainScene extends Scene {
     this.bg.setScrollFactor(0);
     this.bg.setScale(0.5);
 
-    this.createShip();
+    this.ship = new Ship(this);
 
     // this.cameras.main.startFollow(this.ship);
 
-    this.movementKeys = this.input.keyboard.addKeys({
-      'up': Phaser.Input.Keyboard.KeyCodes.W,
-      'down': Phaser.Input.Keyboard.KeyCodes.S,
-      'left': Phaser.Input.Keyboard.KeyCodes.A,
-      'right': Phaser.Input.Keyboard.KeyCodes.D,
+    this.keyboard = this.input.keyboard.addKeys({
+      up: Phaser.Input.Keyboard.KeyCodes.W,
+      down: Phaser.Input.Keyboard.KeyCodes.S,
+      left: Phaser.Input.Keyboard.KeyCodes.A,
+      right: Phaser.Input.Keyboard.KeyCodes.D,
     });
   }
 
-  createShip() {
-    this.ship = new Ship(this);
-  }
-
-  update() {
-    if (this.movementKeys.up.isDown) {
-      this.ship.thrusterUp();
-    } else {
-      this.ship.thrusterOff();
-    }
-
-    if (this.movementKeys.left.isDown) {
-      this.ship.thrusterLeft();
-    } else if (this.movementKeys.right.isDown) {
-      this.ship.thrusterRight();
-    } else {
-      this.ship.thrusterOff();
-    }
-
-    // TODO: move into Ship?
-    if (this.ship.body.velocity.y < 0) {
-      this.ship.enableParticles();
-    } else {
-      this.ship.disableParticles();
-    }
+  update(time, delta) {
+    this.ship.update(time, delta);
 
     this.bg.tilePositionX += this.ship.body.deltaX() * 1;
     this.bg.tilePositionY += this.ship.body.deltaY() * 1;

@@ -28,6 +28,28 @@ export class Ship extends Physics.Arcade.Image {
     this.setupThrusterParticles();
   }
 
+  update(time, delta) {
+    if (this.scene.keyboard.up.isDown) {
+      this.thrusterUp();
+    } else {
+      this.thrusterOff();
+    }
+
+    if (this.scene.keyboard.left.isDown) {
+      this.thrusterLeft();
+    } else if (this.scene.keyboard.right.isDown) {
+      this.thrusterRight();
+    } else {
+      this.thrusterOff();
+    }
+
+    if (this.body.velocity.y < 0) {
+      this.enableParticles();
+    } else {
+      this.disableParticles();
+    }
+  }
+
   setupThrusterParticles() {
     const particles = this.scene.add.particles('flare');
     this.particleEmitter = particles.createEmitter({
