@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import { MainScene } from './MainScene';
-import { TitleScene } from './TitleScene';
+import { MainScene } from './scenes/main-scene';
+import { TitleScene } from './scenes/title-scene';
 
 const gameConfig = {
   type: Phaser.AUTO,
