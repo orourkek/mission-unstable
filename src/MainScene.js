@@ -4,6 +4,7 @@ import flareImg from './assets/thruster-flare.png';
 import backgroundImg from './assets/space.png';
 import { Ship } from './game-objects/ship';
 import { Ground } from './game-objects/ground';
+import { Scenery } from './game-objects/scenery';
 
 export class MainScene extends Scene {
   constructor(){
@@ -49,7 +50,7 @@ export class MainScene extends Scene {
     this.cameras.main.startFollow(this.ship);
     this.cameras.main.followOffset.set(0, 100);
 
-    this.sky = this.createSky();
+    this.scenery = new Scenery(this);
 
     this.keyboard = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -57,34 +58,6 @@ export class MainScene extends Scene {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
     });
-  }
-
-  createSky() {
-    const worldBounds = this.physics.world.bounds;
-    const width = worldBounds.width;
-    const height = (this.cameras.main.height * 1.75);
-    const texture = this.textures.createCanvas(
-      'skyGradient',
-      width,
-      height,
-    );
-    const context = texture.getContext();
-    const grd = context.createLinearGradient(0, 0, 0, height);
-
-    grd.addColorStop(0, 'rgba(125, 225, 255, 0)');
-    grd.addColorStop(1/2, 'rgba(125, 225, 255, 0.9)');
-    grd.addColorStop(1, 'rgba(62, 191, 255, 1)');
-
-    context.fillStyle = grd;
-    context.fillRect(0, 0, width, height);
-
-    texture.refresh();
-
-    this.add.image(
-      worldBounds.left,
-      worldBounds.bottom,
-      'skyGradient'
-    ).setOrigin(0, 1);
   }
 
   update(time, delta) {
