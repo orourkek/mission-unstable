@@ -19,6 +19,9 @@ export class Ship extends Physics.Arcade.Image {
     // rotate so ship points up
     this.setAngle(-90);
 
+    // "z-index"
+    this.setDepth(100);
+
     // other properties
     this.setCollideWorldBounds(true);
     this.setMaxVelocity(300);
