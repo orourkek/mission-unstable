@@ -38,16 +38,6 @@ export class Ship extends Physics.Arcade.Image {
   doLaunch() {
     this.setData('launched', true);
     this.setAccelerationY(this.getData('escapeVelocity') - 20);
-
-    this.launchAccelerationTimer = this.scene.time.addEvent({
-      delay: 5000,
-      callback: this.finishLaunchAcceleration,
-      callbackScope: this,
-    });
-  }
-
-  finishLaunchAcceleration() {
-    this.setAccelerationY(this.getData('escapeVelocity'));
   }
 
   update({ time, delta, keyboard }) {
