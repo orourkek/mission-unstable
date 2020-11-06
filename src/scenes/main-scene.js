@@ -1,10 +1,10 @@
 import { Scene } from 'phaser';
-import shipImg from './assets/ship.png';
-import flareImg from './assets/thruster-flare.png';
-import backgroundImg from './assets/space.png';
-import { Ship } from './game-objects/ship';
-import { Ground } from './game-objects/ground';
-import { Scenery } from './game-objects/scenery';
+import shipImg from '../assets/ship.png';
+import flareImg from '../assets/thruster-flare.png';
+import backgroundImg from '../assets/space.png';
+import { Ship } from '../game-objects/ship';
+import { Ground } from '../game-objects/ground';
+import { Scenery } from '../game-objects/scenery';
 
 export class MainScene extends Scene {
   constructor(){
