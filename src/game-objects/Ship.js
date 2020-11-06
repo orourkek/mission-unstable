@@ -53,6 +53,7 @@ export class Ship extends Physics.Arcade.Image {
 
   setupThrusterParticles() {
     const particles = this.scene.add.particles('flare');
+    particles.setDepth(this.depth - 1);
     this.particleEmitter = particles.createEmitter({
       speed: 150,
       on: false,
