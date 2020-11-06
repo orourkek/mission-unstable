@@ -27,18 +27,40 @@ export class Ship extends Physics.Arcade.Image {
     this.setMaxVelocity(300);
 
     this.setupThrusterParticles();
+
+    this.setData('launched', false);
+    this.setData(
+      'escapeVelocity',
+      -(this.scene.game.config.physics.arcade.gravity.y)
+    );
   }
 
-  update(time, delta) {
-    if (this.scene.keyboard.up.isDown) {
-      this.thrusterUp();
-    } else {
-      this.thrusterOff();
+  doLaunch() {
+    this.setData('launched', true);
+    this.setAccelerationY(this.getData('escapeVelocity') - 20);
+
+    this.launchAccelerationTimer = this.scene.time.addEvent({
+      delay: 5000,
+      callback: this.finishLaunchAcceleration,
+      callbackScope: this,
+    });
+  }
+
+  finishLaunchAcceleration() {
+    this.setAccelerationY(this.getData('escapeVelocity'));
+  }
+
+  update({ time, delta, keyboard }) {
+    if (!this.getData('launched')) {
+      if (keyboard.space.isDown || keyboard.up.isDown) {
+        this.doLaunch();
+      }
+      return;
     }
 
-    if (this.scene.keyboard.left.isDown) {
+    if (keyboard.left.isDown) {
       this.thrusterLeft();
-    } else if (this.scene.keyboard.right.isDown) {
+    } else if (keyboard.right.isDown) {
       this.thrusterRight();
     } else {
       this.thrusterOff();
@@ -91,10 +113,6 @@ export class Ship extends Physics.Arcade.Image {
     this.particleEmitter.stop();
   }
 
-  thrusterUp() {
-    this.setVelocityY(-150);
-  }
-
   thrusterRight() {
     this.setVelocityX(300);
   }
@@ -105,7 +123,5 @@ export class Ship extends Physics.Arcade.Image {
 
   thrusterOff() {
     this.setVelocityX(0);
-    this.setAcceleration(0);
-    // this.particleEmitter.stop();
   }
 }

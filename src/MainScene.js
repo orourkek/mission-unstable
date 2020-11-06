@@ -57,11 +57,12 @@ export class MainScene extends Scene {
       down: Phaser.Input.Keyboard.KeyCodes.S,
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D,
+      space: Phaser.Input.Keyboard.KeyCodes.SPACE,
     });
   }
 
   update(time, delta) {
-    this.ship.update(time, delta);
+    this.ship.update({ time, delta, keyboard: this.keyboard });
 
     this.bg.tilePositionX += this.ship.body.deltaX() * 1;
     this.bg.tilePositionY += this.ship.body.deltaY() * 1;
