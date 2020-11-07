@@ -5,6 +5,7 @@ import backgroundImg from '../assets/space.png';
 import { Ship } from '../game-objects/ship';
 import { Ground } from '../game-objects/ground';
 import { Scenery } from '../game-objects/scenery';
+import { DebugHUD } from '../game-objects/debug-hud';
 
 export class MainScene extends Scene {
   constructor(){
@@ -59,10 +60,14 @@ export class MainScene extends Scene {
       right: Phaser.Input.Keyboard.KeyCodes.D,
       space: Phaser.Input.Keyboard.KeyCodes.SPACE,
     });
+
+    // TODO: hide by default
+    this.debugHUD = new DebugHUD(this);
   }
 
   update(time, delta) {
     this.ship.update({ time, delta, keyboard: this.keyboard });
+    this.debugHUD.update({ time, delta });
 
     this.bg.tilePositionX += this.ship.body.deltaX() * 1;
     this.bg.tilePositionY += this.ship.body.deltaY() * 1;
