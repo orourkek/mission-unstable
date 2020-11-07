@@ -8,6 +8,7 @@ export class DebugHUD extends GameObjects.Container {
     this.speed = 0;
     this.velocityX = 0;
     this.velocityY = 0;
+    this.altitude = 0;
 
     this.text = this.scene.add.text(0, 0, this.getText(), {
       fontSize: '16px',
@@ -25,6 +26,7 @@ export class DebugHUD extends GameObjects.Container {
     return [
       `Speed: ${this.speed}`,
       `Velocity: { x: ${this.velocityX}, y: ${this.velocityY} }`,
+      `Altitude: ${this.altitude}`,
     ].join('\n');
   }
 
@@ -33,6 +35,7 @@ export class DebugHUD extends GameObjects.Container {
     this.speed = ship.body.speed.toFixed(4);
     this.velocityX = ship.body.velocity.x.toFixed(4);
     this.velocityY = ship.body.velocity.y.toFixed(4);
+    this.altitude = ship.getData('altitude');
     this.text.setText(this.getText());
   }
 }

@@ -41,6 +41,10 @@ export class Ship extends Physics.Arcade.Image {
   }
 
   update({ time, delta, keyboard }) {
+    const worldHeight = this.scene.physics.world.bounds.height;
+    const altitude = (worldHeight - this.y - (this.displayHeight / 2));
+    this.setData('altitude', Math.round(altitude));
+
     if (!this.getData('launched')) {
       if (keyboard.space.isDown || keyboard.up.isDown) {
         this.doLaunch();
