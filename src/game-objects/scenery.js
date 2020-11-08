@@ -10,6 +10,20 @@ export class Scenery extends GameObjects.Group {
     scene.add.existing(this);
 
     this.createSky();
+    this.createTrees();
+  }
+
+  createTrees() {
+    const worldBounds = this.scene.physics.world.bounds;
+    this.trees = this.scene.add.tileSprite(
+      worldBounds.left,
+      worldBounds.bottom,
+      worldBounds.width,
+      32,
+      'trees',
+    ).setOrigin(0, 1);
+    this.trees.setScale(2);
+    this.add(this.trees);
   }
 
   createSky() {

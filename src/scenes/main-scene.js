@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
+import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
 import { Ship } from '../game-objects/ship';
@@ -16,6 +17,7 @@ export class MainScene extends Scene {
     this.load.image('ship', shipImg);
     this.load.image('flare', flareImg);
     this.load.image('background', backgroundImg);
+    this.load.image('trees', treesImg);
   }
 
   create() {
