@@ -75,24 +75,18 @@ export class Ship extends Physics.Arcade.Image {
       on: false,
       lifespan: {
         onEmit: (particle, key, t, value) => {
-          return Phaser.Math.Percent(this.body.speed, 0, 300) * 500;
-        }
-      },
-      // TODO: tweak math so vertical (UP) motion isn't transparent
-      alpha: {
-        onEmit: (particle, key, t, value) => {
-          return Phaser.Math.Percent(this.body.speed, 0, 300);
+          return Phaser.Math.Percent(this.body.speed, 0, 300) * 1000;
         }
       },
       angle: {
         onEmit: (particle, key, t, value) => {
-          var v = Phaser.Math.Between(-30, 30);
+          var v = Phaser.Math.Between(-45, 45);
           return (this.angle - 180) + v;
         }
       },
-      scale: { start: 0.7, end: 0.1 },
+      scale: { start: 0.3, end: 0.025 },
       x: 0,
-      y: (this.displayHeight / 2) - 15,
+      y: (this.displayHeight / 2),
       // blendMode: 'HARD_LIGHT'
     });
 
