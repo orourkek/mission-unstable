@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import shipImg from '../assets/ship.png';
+import shipImg from '../assets/rocket_32.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
 import { Ship } from '../game-objects/ship';

@@ -7,7 +7,7 @@ export class Ship extends Physics.Arcade.Image {
     const gameBounds = this.scene.physics.world.bounds;
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
-    this.setScale(0.5);
+    this.setScale(2);
     const shipHeight = this.displayHeight;
 
     // align ship to bottom edge
