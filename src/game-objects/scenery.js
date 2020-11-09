@@ -3,14 +3,16 @@ import { GameObjects } from 'phaser';
 export class Scenery extends GameObjects.Group {
 
   constructor(scene) {
-    const bounds = scene.physics.world.bounds;
-
     super(scene);
 
     scene.add.existing(this);
 
     this.createSky();
     this.createTrees();
+
+    // const worldBounds = scene.physics.world.bounds;
+    // this.setX(worldBounds.left);
+    // this.setY(worldBounds.bottom);
   }
 
   createTrees() {
@@ -21,7 +23,8 @@ export class Scenery extends GameObjects.Group {
       worldBounds.width,
       32,
       'trees',
-    ).setOrigin(0, 1);
+    );
+    this.trees.setOrigin(0, 1);
     this.trees.setScale(2);
     this.add(this.trees);
   }
@@ -38,20 +41,23 @@ export class Scenery extends GameObjects.Group {
     const context = texture.getContext();
     const grd = context.createLinearGradient(0, 0, 0, height);
 
-    grd.addColorStop(0, 'rgba(125, 225, 255, 0)');
-    grd.addColorStop(1/2, 'rgba(125, 225, 255, 0.9)');
-    grd.addColorStop(1, 'rgba(62, 191, 255, 1)');
+    grd.addColorStop(0, 'rgba(77, 166, 255, 0)');
+    grd.addColorStop(1/2, 'rgba(77, 166, 255, 0.9)');
+    grd.addColorStop(1, 'rgba(77, 166, 255, 1)');
 
     context.fillStyle = grd;
     context.fillRect(0, 0, width, height);
 
     texture.refresh();
 
-    this.scene.add.image(
+    this.sky = this.scene.add.image(
       worldBounds.left,
       worldBounds.bottom,
       'skyGradient'
-    ).setOrigin(0, 1);
+    );
+    this.sky.setOrigin(0, 1);
+
+    this.add(this.sky);
   }
 
   update(time, delta) {}
