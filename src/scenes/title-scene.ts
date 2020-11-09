@@ -1,6 +1,10 @@
-import { Scene } from 'phaser';
+import { Scene, GameObjects } from 'phaser';
 
 export class TitleScene extends Scene {
+
+  private title: GameObjects.Text;
+  private caption: GameObjects.Text;
+
   constructor(){
     super('TitleScene');
   }
@@ -25,7 +29,6 @@ export class TitleScene extends Scene {
   }
 
   startGame() {
-    // this.scene.switch('MainScene');
     this.scene.start('MainScene');
   }
 }

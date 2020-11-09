@@ -1,4 +1,4 @@
-import { Scene } from 'phaser';
+import { GameObjects, Scene } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
@@ -9,6 +9,17 @@ import { Scenery } from '../game-objects/scenery';
 import { DebugHUD } from '../game-objects/debug-hud';
 
 export class MainScene extends Scene {
+
+  public keyboard: {
+    [k: string]: Phaser.Input.Keyboard.Key;
+  };
+
+  public bg: GameObjects.TileSprite;
+  public ground: Ground;
+  public scenery: Scenery;
+  public ship: Ship;
+  public debugHUD: DebugHUD;
+
   constructor(){
     super('MainScene');
   }
@@ -21,17 +32,16 @@ export class MainScene extends Scene {
   }
 
   create() {
+    const gameWidth = parseInt(`${this.game.config.width}`);
+    const gameHeight = parseInt(`${this.game.config.height}`);
     this.physics.world.setBounds(
       0,
       0,
-      (this.game.config.width * 3),
-      (this.game.config.height * 10),
+      (gameWidth * 3),
+      (gameHeight * 10),
     );
 
-    this.cameras.main.setSize(
-      this.game.config.width,
-      this.game.config.height,
-    );
+    this.cameras.main.setSize(gameWidth, gameHeight);
 
     const bounds = this.physics.world.bounds;
 
@@ -55,13 +65,13 @@ export class MainScene extends Scene {
 
     this.scenery = new Scenery(this);
 
-    this.keyboard = this.input.keyboard.addKeys({
-      up: Phaser.Input.Keyboard.KeyCodes.W,
-      down: Phaser.Input.Keyboard.KeyCodes.S,
-      left: Phaser.Input.Keyboard.KeyCodes.A,
-      right: Phaser.Input.Keyboard.KeyCodes.D,
-      space: Phaser.Input.Keyboard.KeyCodes.SPACE,
-    });
+    this.keyboard = {
+      up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+      down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+      left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+      space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
+    };
 
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this);
