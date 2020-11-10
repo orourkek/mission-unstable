@@ -9,14 +9,20 @@ module.exports = {
   devServer: {
     // open: true,
   },
+  resolve: {
+    extensions: ['.ts', '.js']
+  },
   module: {
     rules: [
       {
+        test: /\.ts$/,
+        include: path.join(__dirname, 'src'),
+        loaders: [ 'ts-loader' ],
+      },
+      {
         test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader'
-        }
+        include: path.join(__dirname, 'src'),
+        loaders: [ 'babel-loader' ],
       },
       {
         test: /\.(gif|png|jpe?g|svg|xml)$/i,

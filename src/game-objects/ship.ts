@@ -1,8 +1,13 @@
-import { GameObjects, Physics } from 'phaser';
+import { GameObjects, Physics, Scene } from 'phaser';
 
 export class Ship extends Physics.Arcade.Image {
 
-  constructor(scene, x = 0, y = 0) {
+  // Override body type to be dynamic (non-static)
+  public body: Physics.Arcade.Body;
+
+  private particleEmitter: GameObjects.Particles.ParticleEmitter;
+
+  public constructor(scene: Scene, x = 0, y = 0) {
     super(scene, x, y, 'ship');
     const gameBounds = this.scene.physics.world.bounds;
     this.scene.add.existing(this);
@@ -35,12 +40,12 @@ export class Ship extends Physics.Arcade.Image {
     );
   }
 
-  doLaunch() {
+  public doLaunch() {
     this.setData('launched', true);
     this.setAccelerationY(this.getData('escapeVelocity') - 20);
   }
 
-  update({ time, delta, keyboard }) {
+  public update({ time, delta, keyboard }) {
     const worldHeight = this.scene.physics.world.bounds.height;
     const altitude = (worldHeight - this.y - (this.displayHeight / 2));
     this.setData('altitude', Math.round(altitude));
@@ -67,19 +72,19 @@ export class Ship extends Physics.Arcade.Image {
     }
   }
 
-  setupThrusterParticles() {
+  protected setupThrusterParticles() {
     const particles = this.scene.add.particles('flare');
     particles.setDepth(this.depth - 1);
     this.particleEmitter = particles.createEmitter({
       speed: 150,
       on: false,
       lifespan: {
-        onEmit: (particle, key, t, value) => {
+        onEmit: () => {
           return Phaser.Math.Percent(this.body.speed, 0, 300) * 1000;
         }
       },
       angle: {
-        onEmit: (particle, key, t, value) => {
+        onEmit: () => {
           var v = Phaser.Math.Between(-45, 45);
           return (this.angle - 180) + v;
         }
@@ -93,23 +98,23 @@ export class Ship extends Physics.Arcade.Image {
     this.particleEmitter.startFollow(this);
   }
 
-  enableParticles() {
+  protected enableParticles() {
     this.particleEmitter.start();
   }
 
-  disableParticles() {
+  protected disableParticles() {
     this.particleEmitter.stop();
   }
 
-  thrusterRight() {
+  protected thrusterRight() {
     this.setVelocityX(300);
   }
 
-  thrusterLeft() {
+  protected thrusterLeft() {
     this.setVelocityX(-300);
   }
 
-  thrusterOff() {
+  protected thrusterOff() {
     this.setVelocityX(0);
   }
 }

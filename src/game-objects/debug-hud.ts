@@ -1,8 +1,18 @@
-import { GameObjects } from 'phaser';
+import { GameObjects, Scene } from 'phaser';
+import { MainScene } from '../scenes/main-scene';
 
 export class DebugHUD extends GameObjects.Container {
 
-  constructor(scene) {
+  public scene: MainScene;
+
+  private speed: number;
+  private velocityX: number;
+  private velocityY: number;
+  private altitude: number;
+
+  private text: GameObjects.Text;
+
+  public constructor(scene: Scene) {
     super(scene, 16, 16);
 
     this.speed = 0;
@@ -22,7 +32,7 @@ export class DebugHUD extends GameObjects.Container {
     scene.add.existing(this);
   }
 
-  getText() {
+  public getText() {
     return [
       `Speed: ${this.speed}`,
       `Velocity: { x: ${this.velocityX}, y: ${this.velocityY} }`,
@@ -30,12 +40,17 @@ export class DebugHUD extends GameObjects.Container {
     ].join('\n');
   }
 
-  update({ time, delta }) {
+  public update({ time, delta }) {
     const ship = this.scene.ship;
-    this.speed = ship.body.speed.toFixed(4);
-    this.velocityX = ship.body.velocity.x.toFixed(4);
-    this.velocityY = ship.body.velocity.y.toFixed(4);
+    this.speed = this.toFixed(ship.body.speed);
+    this.velocityX = this.toFixed(ship.body.velocity.x);
+    this.velocityY = this.toFixed(ship.body.velocity.y);
     this.altitude = ship.getData('altitude');
     this.text.setText(this.getText());
+  }
+
+  private toFixed(num: number, digits = 3) {
+    const factor = Math.pow(10, digits);
+    return (Math.round(num * factor) / factor);
   }
 }

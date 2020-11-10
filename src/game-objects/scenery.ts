@@ -1,8 +1,11 @@
-import { GameObjects } from 'phaser';
+import { GameObjects, Scene } from 'phaser';
 
 export class Scenery extends GameObjects.Group {
 
-  constructor(scene) {
+  private trees: GameObjects.TileSprite;
+  private sky: GameObjects.Image;
+
+  constructor(scene: Scene) {
     super(scene);
 
     scene.add.existing(this);
@@ -59,7 +62,4 @@ export class Scenery extends GameObjects.Group {
 
     this.add(this.sky);
   }
-
-  update(time, delta) {}
-
 }
