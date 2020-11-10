@@ -2,13 +2,15 @@ import Phaser from 'phaser';
 import { MainScene } from './scenes/main-scene';
 import { TitleScene } from './scenes/title-scene';
 
-const gameConfig = {
+const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   parent: 'game',
   width: 800,
   height: 600,
   backgroundColor: '#0e1224',
-  pixelArt: true,
+  render: {
+    pixelArt: true,
+  },
   physics: {
     default: 'arcade',
     arcade: {
