@@ -1,4 +1,4 @@
-import { GameObjects, Scene } from 'phaser';
+import { GameObjects, Scene, Physics } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import backgroundImg from '../assets/space.png';
 import { Player } from '../objects/player';
@@ -15,6 +15,8 @@ export class MainScene extends Scene {
   public ground: Ground;
   public player: Player;
   public debugHUD: DebugHUD;
+
+  public groundCollider: Physics.Arcade.Collider;
 
   constructor(){
     super('MainScene');
@@ -53,7 +55,7 @@ export class MainScene extends Scene {
     this.ground = new Ground(this);
     this.player = new Player(this);
 
-    this.physics.add.collider(this.player, this.ground);
+    // this.groundCollider = this.physics.add.collider(this.player, this.ground);
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
