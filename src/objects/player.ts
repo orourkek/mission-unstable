@@ -50,4 +50,9 @@ export class Player extends Physics.Arcade.Image {
       this.setVelocityX(0);
     }
   }
+
+  public handleStarCollision(star: GameObjects.GameObject) {
+    star.destroy();
+    this.setVelocityY(-(Player.JUMP_VELOCITY));
+  }
 }

@@ -1,6 +1,7 @@
-import { GameObjects, Scene, Physics } from 'phaser';
+import { GameObjects, Scene, Physics, Math as PhaserMath } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import backgroundImg from '../assets/space.png';
+import starImg from '../assets/star.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { DebugHUD } from '../objects/debug-hud';
@@ -14,9 +15,8 @@ export class MainScene extends Scene {
   public bg: GameObjects.TileSprite;
   public ground: Ground;
   public player: Player;
+  public stars: Physics.Arcade.Group;
   public debugHUD: DebugHUD;
-
-  public groundCollider: Physics.Arcade.Collider;
 
   constructor(){
     super('MainScene');
@@ -25,6 +25,7 @@ export class MainScene extends Scene {
   preload() {
     this.load.image('player', shipImg);
     this.load.image('background', backgroundImg);
+    this.load.image('star', starImg);
   }
 
   create() {
@@ -55,7 +56,11 @@ export class MainScene extends Scene {
     this.ground = new Ground(this);
     this.player = new Player(this);
 
-    // this.groundCollider = this.physics.add.collider(this.player, this.ground);
+    this.stars = this.createStars();
+
+    this.physics.add.collider(this.player, this.stars, (player, star) => {
+      this.player.handleStarCollision(star);
+    });
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
@@ -70,6 +75,35 @@ export class MainScene extends Scene {
 
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this);
+  }
+
+  createStars() {
+    const bounds = this.physics.world.bounds;
+
+    const group = this.physics.add.group({
+      // key: 'star',
+      allowGravity: false,
+      // repeat: 100,
+      // setXY: {
+      //   x: (PhaserMath.RND.between(bounds.left, bounds.right)),
+      //   y: bounds.bottom,
+      //   stepY: -200,
+      // }
+    });
+
+    const vSpacing = 200;
+    const hSpacing = 80;
+    let lastX = bounds.centerX;
+
+    for (let y = (bounds.bottom - vSpacing); y > 0; y -= vSpacing) {
+      const x = PhaserMath.RND.between(
+        Math.max(bounds.left, (lastX - hSpacing)),
+        Math.min(bounds.left, (lastX + hSpacing)),
+      );
+      group.create(x, y, 'star');
+    }
+
+    return group;
   }
 
   update(time: number, delta: number) {
