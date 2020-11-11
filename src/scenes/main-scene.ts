@@ -3,10 +3,10 @@ import shipImg from '../assets/rocket_32.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
-import { Ship } from '../game-objects/ship';
-import { Ground } from '../game-objects/ground';
-import { Scenery } from '../game-objects/scenery';
-import { DebugHUD } from '../game-objects/debug-hud';
+import { Ship } from '../objects/ship';
+import { Ground } from '../objects/ground';
+import { Scenery } from '../objects/scenery';
+import { DebugHUD } from '../objects/debug-hud';
 
 export class MainScene extends Scene {
 
@@ -77,7 +77,7 @@ export class MainScene extends Scene {
     this.debugHUD = new DebugHUD(this);
   }
 
-  update(time, delta) {
+  update(time: number, delta: number) {
     this.ship.update({ time, delta, keyboard: this.keyboard });
     this.debugHUD.update({ time, delta });
 
