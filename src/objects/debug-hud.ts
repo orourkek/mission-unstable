@@ -6,6 +6,8 @@ export class DebugHUD extends GameObjects.Container {
   public scene: MainScene;
 
   private speed: number;
+  private positionX: number;
+  private positionY: number;
   private velocityX: number;
   private velocityY: number;
   private altitude: number;
@@ -16,6 +18,8 @@ export class DebugHUD extends GameObjects.Container {
     super(scene, 16, 16);
 
     this.speed = 0;
+    this.positionX = 0;
+    this.positionY = 0;
     this.velocityX = 0;
     this.velocityY = 0;
     this.altitude = 0;
@@ -34,15 +38,18 @@ export class DebugHUD extends GameObjects.Container {
 
   public getText() {
     return [
-      `Speed: ${this.speed}`,
+      `Speed: ${this.speed}                                    `,
+      `Position: { x: ${this.positionX}, y: ${this.positionY} }`,
       `Velocity: { x: ${this.velocityX}, y: ${this.velocityY} }`,
-      `Altitude: ${this.altitude}`,
+      `Altitude: ${this.altitude}                              `,
     ].join('\n');
   }
 
   public update({ time, delta }) {
     const player = this.scene.player;
     this.speed = this.toFixed(player.body.speed);
+    this.positionX = Math.round(player.body.x);
+    this.positionY = Math.round(player.body.y);
     this.velocityX = this.toFixed(player.body.velocity.x);
     this.velocityY = this.toFixed(player.body.velocity.y);
     this.altitude = player.getData('altitude');
