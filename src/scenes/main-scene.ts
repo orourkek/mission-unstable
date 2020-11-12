@@ -5,6 +5,7 @@ import starImg from '../assets/star.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { DebugHUD } from '../objects/debug-hud';
+import { Stars } from '../objects/stars';
 
 export class MainScene extends Scene {
 
@@ -15,7 +16,7 @@ export class MainScene extends Scene {
   public bg: GameObjects.TileSprite;
   public ground: Ground;
   public player: Player;
-  public stars: Physics.Arcade.Group;
+  public stars: Stars;
   public debugHUD: DebugHUD;
   public particleEmitter: GameObjects.Particles.ParticleEmitter;
 
@@ -56,16 +57,11 @@ export class MainScene extends Scene {
 
     this.ground = new Ground(this);
     this.player = new Player(this);
-
-    this.stars = this.createStars();
+    this.stars = new Stars(this);
 
     this.physics.add.collider(
       this.player,
       this.stars,
-      // (player: Player, star: GameObjects.GameObject) => {
-      //   star.destroy();
-      //   player.setVelocityY(-(Player.JUMP_VELOCITY));
-      // }
       this.handleStarCollision.bind(this),
     );
 
@@ -84,63 +80,8 @@ export class MainScene extends Scene {
     this.debugHUD = new DebugHUD(this);
   }
 
-  createStars() {
-    const bounds = this.physics.world.bounds;
-
-    const group = this.physics.add.group({
-      // key: 'star',
-      allowGravity: false,
-      // repeat: 100,
-      // setXY: {
-      //   x: (PhaserMath.RND.between(bounds.left, bounds.right)),
-      //   y: bounds.bottom,
-      //   stepY: -200,
-      // }
-    });
-
-    const vSpacing = 180;
-    const hSpacing = 800;
-    let lastX = bounds.centerX;
-
-    for (let y = (bounds.bottom - vSpacing); y > 0; y -= vSpacing) {
-      const x = PhaserMath.RND.between(
-        Math.max(0, (lastX - hSpacing / 2)),
-        Math.min(bounds.width, (lastX + hSpacing / 2)),
-      );
-      lastX = x;
-      group.create(x, y, 'star');
-    }
-
-    const particles = this.add.particles('star');
-    // TODO: refactor emitter to avoid start/stop issues - attach to stars?
-    this.particleEmitter = particles.createEmitter({
-      on: false,
-      speed: 150,
-      alpha: { start: 1, end: 0 },
-      scale: { start: 1, end: 0.2 },
-      // accelerationX: -100,
-      // accelerationY: -100,
-      // angle: { min: -85, max: -95 },
-      // rotate: { min: -180, max: 180 },
-      lifespan: { min: 100, max: 500 },
-      blendMode: 'ADD',
-      // frequency: 110,
-      // maxParticles: 10,
-      x: 0,
-      y: 0,
-    });
-
-    return group;
-  }
-
   handleStarCollision(player: Player, star: GameObjects.GameObject) {
-    this.particleEmitter.setPosition(
-      star.body.position.x,
-      star.body.position.y,
-    );
-    this.particleEmitter.start();
-    this.time.delayedCall(100, () => this.particleEmitter.stop());
-    star.destroy();
+    this.stars.handleStarCollision(star);
     player.setVelocityY(-(Player.STAR_JUMP_VELOCITY));
   }
 
