@@ -17,6 +17,7 @@ export class MainScene extends Scene {
   public player: Player;
   public stars: Physics.Arcade.Group;
   public debugHUD: DebugHUD;
+  public particleEmitter: GameObjects.Particles.ParticleEmitter;
 
   constructor(){
     super('MainScene');
@@ -58,9 +59,15 @@ export class MainScene extends Scene {
 
     this.stars = this.createStars();
 
-    this.physics.add.collider(this.player, this.stars, (player, star) => {
-      this.player.handleStarCollision(star);
-    });
+    this.physics.add.collider(
+      this.player,
+      this.stars,
+      // (player: Player, star: GameObjects.GameObject) => {
+      //   star.destroy();
+      //   player.setVelocityY(-(Player.JUMP_VELOCITY));
+      // }
+      this.handleStarCollision.bind(this),
+    );
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
@@ -91,19 +98,50 @@ export class MainScene extends Scene {
       // }
     });
 
-    const vSpacing = 200;
-    const hSpacing = 80;
+    const vSpacing = 180;
+    const hSpacing = 800;
     let lastX = bounds.centerX;
 
     for (let y = (bounds.bottom - vSpacing); y > 0; y -= vSpacing) {
       const x = PhaserMath.RND.between(
-        Math.max(bounds.left, (lastX - hSpacing)),
-        Math.min(bounds.left, (lastX + hSpacing)),
+        Math.max(0, (lastX - hSpacing / 2)),
+        Math.min(bounds.width, (lastX + hSpacing / 2)),
       );
+      lastX = x;
       group.create(x, y, 'star');
     }
 
+    const particles = this.add.particles('star');
+    // TODO: refactor emitter to avoid start/stop issues - attach to stars?
+    this.particleEmitter = particles.createEmitter({
+      on: false,
+      speed: 150,
+      alpha: { start: 1, end: 0 },
+      scale: { start: 1, end: 0.2 },
+      // accelerationX: -100,
+      // accelerationY: -100,
+      // angle: { min: -85, max: -95 },
+      // rotate: { min: -180, max: 180 },
+      lifespan: { min: 100, max: 500 },
+      blendMode: 'ADD',
+      // frequency: 110,
+      // maxParticles: 10,
+      x: 0,
+      y: 0,
+    });
+
     return group;
+  }
+
+  handleStarCollision(player: Player, star: GameObjects.GameObject) {
+    this.particleEmitter.setPosition(
+      star.body.position.x,
+      star.body.position.y,
+    );
+    this.particleEmitter.start();
+    this.time.delayedCall(100, () => this.particleEmitter.stop());
+    star.destroy();
+    player.setVelocityY(-(Player.STAR_JUMP_VELOCITY));
   }
 
   update(time: number, delta: number) {

@@ -3,7 +3,8 @@ import { GameObjects, Physics, Scene } from 'phaser';
 export class Player extends Physics.Arcade.Image {
 
   public static HORIZONTAL_VELOCITY = 400;
-  public static JUMP_VELOCITY = 500;
+  public static JUMP_VELOCITY = 425;
+  public static STAR_JUMP_VELOCITY = 500;
 
   // Override body type to be dynamic (non-static)
   public body: Physics.Arcade.Body;
@@ -51,8 +52,7 @@ export class Player extends Physics.Arcade.Image {
     }
   }
 
-  public handleStarCollision(star: GameObjects.GameObject) {
-    star.destroy();
-    this.setVelocityY(-(Player.JUMP_VELOCITY));
+  public handleStarCollision() {
+    this.setVelocityY(-(Player.STAR_JUMP_VELOCITY));
   }
 }
