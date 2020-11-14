@@ -2,6 +2,7 @@ import { GameObjects, Scene, Physics, Math as PhaserMath } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import backgroundImg from '../assets/space.png';
 import starImg from '../assets/star.png';
+import dingMp3 from '../assets/audio/ding2.mp3';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { DebugHUD } from '../objects/debug-hud';
@@ -28,6 +29,7 @@ export class MainScene extends Scene {
     this.load.image('player', shipImg);
     this.load.image('background', backgroundImg);
     this.load.image('star', starImg);
+    this.load.audio('ding', dingMp3);
   }
 
   create() {

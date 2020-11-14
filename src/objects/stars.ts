@@ -35,6 +35,7 @@ export class Stars extends Physics.Arcade.Group {
   public handleStarCollision(star: GameObjects.GameObject) {
     const { x, y } = star.body.position;
     this.remove(star, true, true);
+    this.scene.sound.play('ding');
     const emitter = this.particles.createEmitter({
       on: true,
       speed: 150,
