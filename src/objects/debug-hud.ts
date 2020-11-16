@@ -5,22 +5,12 @@ export class DebugHUD extends GameObjects.Container {
 
   public scene: MainScene;
 
-  private speed: number;
-  private velocityX: number;
-  private velocityY: number;
-  private altitude: number;
-
   private text: GameObjects.Text;
 
   public constructor(scene: Scene) {
     super(scene, 16, 16);
 
-    this.speed = 0;
-    this.velocityX = 0;
-    this.velocityY = 0;
-    this.altitude = 0;
-
-    this.text = this.scene.add.text(0, 0, this.getText(), {
+    this.text = this.scene.add.text(0, 0, '', {
       fontSize: '16px',
       padding: { x: 8, y: 4 },
       backgroundColor: '#000000AA',
@@ -32,24 +22,21 @@ export class DebugHUD extends GameObjects.Container {
     scene.add.existing(this);
   }
 
-  public getText() {
-    return [
-      `Speed: ${this.speed}`,
-      `Velocity: { x: ${this.velocityX}, y: ${this.velocityY} }`,
-      `Altitude: ${this.altitude}`,
-    ].join('\n');
-  }
-
   public update({ time, delta }) {
-    this.speed = this.toFixed(this.scene.player.body.speed);
-    this.velocityX = this.toFixed(this.scene.player.body.velocity.x);
-    this.velocityY = this.toFixed(this.scene.player.body.velocity.y);
-    this.altitude = this.scene.player.altitude;
-    this.text.setText(this.getText());
-  }
+    const player = this.scene.player;
+    const velocity = player.body.velocity;
+    const fmt = (str: string) => str.padEnd(36);
+    const toFixed = (num: number, digits = 3) => {
+      const factor = Math.pow(10, digits);
+      return (Math.round(num * factor) / factor);
+    };
 
-  private toFixed(num: number, digits = 3) {
-    const factor = Math.pow(10, digits);
-    return (Math.round(num * factor) / factor);
+    this.text.setText([
+      fmt(`Position: { x: ${Math.round(player.x)}, y: ${Math.round(player.y)} }`),
+      fmt(`Speed: ${toFixed(player.body.speed)}`),
+      fmt(`Velocity: { x: ${toFixed(velocity.x)}, y: ${toFixed(velocity.y)} }`),
+      fmt(`Altitude: ${player.altitude}`),
+      fmt(`Player object count: ${player.length}`),
+    ].join('\n'));
   }
 }
