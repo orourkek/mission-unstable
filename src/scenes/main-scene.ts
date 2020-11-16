@@ -1,14 +1,13 @@
-import { Game, GameObjects, Physics, Scene } from 'phaser';
+import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
 import spaceJunkImg from '../assets/space_junk_32.png';
-// import { Ship } from '../objects/ship';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
-import { SpaceJunk } from '../objects/space-junk';
+import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
 
 export class MainScene extends Scene {
@@ -22,12 +21,11 @@ export class MainScene extends Scene {
   public scenery: Scenery;
   public player: Player;
   public debugHUD: DebugHUD;
-  public spaceJunk: SpaceJunk;
-
-  public spaceJunkCollider?: Physics.Arcade.Collider;
+  public asteroids: GameObjects.Group;
 
   constructor(){
     super('MainScene');
+    (window as any).scene = this;
   }
 
   preload() {
@@ -63,35 +61,22 @@ export class MainScene extends Scene {
     this.bg.setScale(0.5);
 
     this.ground = new Ground(this);
+    this.scenery = new Scenery(this);
     this.player = new Player(this);
-    this.spaceJunk = new SpaceJunk(this);
+    this.asteroids = this.add.group(this.createRandomAsteroids());
 
     this.physics.add.collider(this.player, this.ground);
 
-    this.spaceJunkCollider = this.physics.add.collider(
+    this.physics.add.overlap(
       this.player,
-      this.spaceJunk,
-      (player: Player, junk: Physics.Arcade.Image) => {
-        const relativePosition = {
-          x: (junk.x - player.x),
-          y: (junk.y - player.y),
-        };
-
-        console.log(`relativePosition:`, relativePosition);
-
-        this.spaceJunk.remove(junk);
-        player.add(junk);
-        junk.setPosition(relativePosition.x, relativePosition.y);
-
-        // this.physics.add.existing(junk);
-        console.log(`new player bounds:`, player.getBounds());
+      this.asteroids,
+      (player: Player, asteroid: Asteroid) => {
+        this.handleAsteroidCollision(asteroid);
       }
     );
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
-
-    this.scenery = new Scenery(this);
 
     this.keyboard = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -111,5 +96,36 @@ export class MainScene extends Scene {
 
     this.bg.tilePositionX += this.player.body.deltaX() * 1;
     this.bg.tilePositionY += this.player.body.deltaY() * 1;
+  }
+
+  private handleAsteroidCollision(asteroid: Asteroid) {
+    this.asteroids.remove(asteroid);
+    this.player.subsumeAsteroid(asteroid);
+    this.physics.add.overlap(
+      asteroid,
+      this.asteroids,
+      (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
+        this.handleAsteroidCollision(spaceAsteroid);
+      }
+    );
+  }
+
+  private createRandomAsteroids(): Asteroid[] {
+    const vSpacing = 100;
+    const hSpacing = 1000;
+    const { bottom, width, centerX } = this.physics.world.bounds;
+    const asteroids = [];
+    let lastX = centerX;
+
+    for (let y = (bottom - vSpacing); y > 0; y -= vSpacing) {
+      const x = PMath.RND.between(
+        Math.max(0, (lastX - hSpacing / 2)),
+        Math.min(width, (lastX + hSpacing / 2)),
+      );
+      asteroids.push(new Asteroid(this, x, y));
+      lastX = x;
+    }
+
+    return asteroids;
   }
 }

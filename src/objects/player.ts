@@ -1,4 +1,5 @@
 import { GameObjects, Physics, Scene } from 'phaser';
+import { Asteroid } from './asteroid';
 import { Ship } from './ship';
 
 export class Player extends GameObjects.Container {
@@ -26,7 +27,6 @@ export class Player extends GameObjects.Container {
     this.setDepth(100);
 
     this.ship = new Ship(scene);
-
     this.add(this.ship);
 
     this.scene.add.existing(this);
@@ -63,5 +63,12 @@ export class Player extends GameObjects.Container {
   public doLaunch() {
     this.launched = true;
     this.body.setAccelerationY(this.escapeVelocity - 20);
+  }
+
+  public subsumeAsteroid(asteroid: Asteroid) {
+    const relativeX = (asteroid.x - this.x);
+    const relativeY = (asteroid.y - this.y);
+    this.add(asteroid);
+    asteroid.setPosition(relativeX, relativeY);
   }
 }

@@ -1,5 +1,6 @@
 import { GameObjects, Physics, Scene } from 'phaser';
 
+// export class Ship extends Physics.Arcade.Image {
 export class Ship extends GameObjects.Image {
 
   private particleEmitter: GameObjects.Particles.ParticleEmitter;
@@ -8,20 +9,26 @@ export class Ship extends GameObjects.Image {
     super(scene, x, y, 'ship');
 
     // this.scene.add.existing(this);
+    // this.scene.physics.add.existing(this);
 
     this.setScale(2);
     this.setAngle(-90);
     this.setOrigin(1, 0);
 
+    // this.setCollideWorldBounds(true);
+    // this.setMaxVelocity(300);
+
     this.setupThrusterParticles();
   }
 
   public update({ time, delta, keyboard }) {
-    if (this.parentContainer.body.velocity.y < 0) {
-      this.enableParticles();
-    } else {
-      this.disableParticles();
-    }
+    // TODO: disabled this particle logic because Ship
+    //       no longer has a physics body (see Player)
+    // if (this.body.velocity.y < 0) {
+    //   this.enableParticles();
+    // } else {
+    //   this.disableParticles();
+    // }
   }
 
   protected setupThrusterParticles() {
