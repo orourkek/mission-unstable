@@ -1,11 +1,14 @@
-import { GameObjects, Scene } from 'phaser';
+import { Game, GameObjects, Physics, Scene } from 'phaser';
 import shipImg from '../assets/rocket_32.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
-import { Ship } from '../objects/ship';
+import spaceJunkImg from '../assets/space_junk_32.png';
+// import { Ship } from '../objects/ship';
+import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
+import { SpaceJunk } from '../objects/space-junk';
 import { DebugHUD } from '../objects/debug-hud';
 
 export class MainScene extends Scene {
@@ -17,8 +20,11 @@ export class MainScene extends Scene {
   public bg: GameObjects.TileSprite;
   public ground: Ground;
   public scenery: Scenery;
-  public ship: Ship;
+  public player: Player;
   public debugHUD: DebugHUD;
+  public spaceJunk: SpaceJunk;
+
+  public spaceJunkCollider?: Physics.Arcade.Collider;
 
   constructor(){
     super('MainScene');
@@ -29,6 +35,7 @@ export class MainScene extends Scene {
     this.load.image('flare', flareImg);
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
+    this.load.image('spaceJunk', spaceJunkImg);
   }
 
   create() {
@@ -56,11 +63,32 @@ export class MainScene extends Scene {
     this.bg.setScale(0.5);
 
     this.ground = new Ground(this);
-    this.ship = new Ship(this);
+    this.player = new Player(this);
+    this.spaceJunk = new SpaceJunk(this);
 
-    this.physics.add.collider(this.ship, this.ground);
+    this.physics.add.collider(this.player, this.ground);
 
-    this.cameras.main.startFollow(this.ship);
+    this.spaceJunkCollider = this.physics.add.collider(
+      this.player,
+      this.spaceJunk,
+      (player: Player, junk: Physics.Arcade.Image) => {
+        const relativePosition = {
+          x: (junk.x - player.x),
+          y: (junk.y - player.y),
+        };
+
+        console.log(`relativePosition:`, relativePosition);
+
+        this.spaceJunk.remove(junk);
+        player.add(junk);
+        junk.setPosition(relativePosition.x, relativePosition.y);
+
+        // this.physics.add.existing(junk);
+        console.log(`new player bounds:`, player.getBounds());
+      }
+    );
+
+    this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
 
     this.scenery = new Scenery(this);
@@ -78,10 +106,10 @@ export class MainScene extends Scene {
   }
 
   update(time: number, delta: number) {
-    this.ship.update({ time, delta, keyboard: this.keyboard });
+    this.player.update({ time, delta, keyboard: this.keyboard });
     this.debugHUD.update({ time, delta });
 
-    this.bg.tilePositionX += this.ship.body.deltaX() * 1;
-    this.bg.tilePositionY += this.ship.body.deltaY() * 1;
+    this.bg.tilePositionX += this.player.body.deltaX() * 1;
+    this.bg.tilePositionY += this.player.body.deltaY() * 1;
   }
 }

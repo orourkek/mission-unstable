@@ -41,11 +41,10 @@ export class DebugHUD extends GameObjects.Container {
   }
 
   public update({ time, delta }) {
-    const ship = this.scene.ship;
-    this.speed = this.toFixed(ship.body.speed);
-    this.velocityX = this.toFixed(ship.body.velocity.x);
-    this.velocityY = this.toFixed(ship.body.velocity.y);
-    this.altitude = ship.getData('altitude');
+    this.speed = this.toFixed(this.scene.player.body.speed);
+    this.velocityX = this.toFixed(this.scene.player.body.velocity.x);
+    this.velocityY = this.toFixed(this.scene.player.body.velocity.y);
+    this.altitude = this.scene.player.altitude;
     this.text.setText(this.getText());
   }
 

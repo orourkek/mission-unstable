@@ -22,7 +22,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     },
   },
   scene: [
-    TitleScene,
+    // TitleScene,
     MainScene,
   ],
 };
