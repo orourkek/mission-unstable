@@ -27,6 +27,7 @@ export class DebugHUD extends GameObjects.Container {
     const velocity = player.body.velocity;
     const accel = player.body.acceleration;
     const drag = player.body.drag;
+    const { left, right } = player.attachedAsteroids;
     const fmt = (str: string) => str.padEnd(36);
     const toFixed = (num: number, digits = 3) => {
       const factor = Math.pow(10, digits);
@@ -35,13 +36,14 @@ export class DebugHUD extends GameObjects.Container {
 
     this.text.setText([
       fmt(`Altitude: ${player.altitude}`),
-      fmt(`Player object count: ${player.length}`),
+      fmt(`Attached asteroids: ${player.length} (left: ${left} right: ${right})`),
       fmt(`Position: { x: ${Math.round(player.x)}, y: ${Math.round(player.y)} }`),
       fmt(`Rotation: ${toFixed(player.rotation, 5)} (${Math.round(player.angle)})`),
       fmt(`Speed: ${toFixed(player.body.speed)}`),
       fmt(`Acceleration: { x: ${toFixed(accel.x)}, y: ${toFixed(accel.y)} }`),
       fmt(`Velocity: { x: ${toFixed(velocity.x)}, y: ${toFixed(velocity.y)} }`),
       fmt(`Angular Velocity: ${toFixed(player.body.angularVelocity)}`),
+      fmt(`Angular Velocity Adjustment: ${toFixed(player.angularAccelerationAdjustment)}`),
       fmt(`Drag: { x: ${toFixed(drag.x)}, y: ${toFixed(drag.y)} }`),
       fmt(`Gravity: ${toFixed(this.scene.physics.world.gravity.y)}`),
     ].join('\n'));

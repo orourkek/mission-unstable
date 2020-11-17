@@ -112,8 +112,8 @@ export class MainScene extends Scene {
   }
 
   private createRandomAsteroids(): Asteroid[] {
-    const vSpacing = 100;
-    const hSpacing = 1000;
+    const vSpacing = 40;
+    const hSpacing = 1500;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const asteroids = [];
     let lastX = centerX;

@@ -1,12 +1,20 @@
-import { GameObjects, Physics, Scene } from 'phaser';
+import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
 import { Asteroid } from './asteroid';
 import { Ship } from './ship';
 
 export class Player extends GameObjects.Container {
 
   // Amount of drag to be applied for each additional object in the container
-  public readonly DRAG_FACTOR = 20;
+  public readonly DRAG_FACTOR = 25;
   public readonly MAX_VELOCITY = 300;
+  public readonly BASE_ANGULAR_ACCEL = 150;
+
+  public attachedAsteroids = {
+    left: 0,
+    right: 0,
+  };
+
+  public angularAccelerationAdjustment = 0;
 
   public launched = false;
   public altitude: number;
@@ -77,23 +85,24 @@ export class Player extends GameObjects.Container {
     //   this.body.setAcceleration(0, 0);
     // }
 
+    this.angularAccelerationAdjustment = (
+      -(this.DRAG_FACTOR * this.attachedAsteroids.left) +
+      (this.DRAG_FACTOR * this.attachedAsteroids.right)
+    );
+
     if (keyboard.left.isDown) {
-      // this.body.setAngularVelocity(-300);
-      this.body.setAngularAcceleration(-150);
+      this.body.setAngularAcceleration(
+        -(this.BASE_ANGULAR_ACCEL) + this.angularAccelerationAdjustment
+      );
     } else if (keyboard.right.isDown) {
-      // this.body.setAngularVelocity(300);
-      this.body.setAngularAcceleration(150);
+      this.body.setAngularAcceleration(
+        this.BASE_ANGULAR_ACCEL + this.angularAccelerationAdjustment
+      );
     } else {
-      // this.body.setAngularVelocity(0);
-      this.body.setAngularAcceleration(0);
+      this.body.setAngularAcceleration(this.angularAccelerationAdjustment);
     }
 
     this.ship.update({ time, delta, keyboard });
-
-    this.body.setMaxVelocity(
-      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
-      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
-    );
   }
 
   public doLaunch() {
@@ -104,6 +113,9 @@ export class Player extends GameObjects.Container {
   public subsumeAsteroid(asteroid: Asteroid) {
     const offsetX = (asteroid.x - this.x);
     const offsetY = (asteroid.y - this.y);
+    // This math compensates for the fact that if the player object
+    // is rotated, the coordinate system is also rotated (e.g. if
+    // player.rotation === -90, the y axis is left/right)
     const sin = Math.sin(this.rotation);
     const cos = Math.cos(this.rotation);
     const relativeX = ((offsetY * sin) + (offsetX * cos));
@@ -111,6 +123,15 @@ export class Player extends GameObjects.Container {
     // console.log(`Asteroid coords: (${asteroid.x}, ${asteroid.y})`);
     // console.log(`Ship coords: (${this.x}, ${this.y})`);
     // console.log(`Relative coords: (${relativeX}, ${relativeY})`);
+
+    // TODO: this math assumes a player rotation of -90 (i.e. y axis rotated)
+    if (relativeY < 0) {
+      this.attachedAsteroids.left++;
+    } else if (relativeY > 0) {
+      this.attachedAsteroids.right++;
+    } else {
+      // TODO?
+    }
 
     asteroid.setPosition(relativeX, relativeY);
     asteroid.setAngle(180 - Math.abs(Math.abs(this.angle - 0) - 180));
