@@ -25,6 +25,8 @@ export class DebugHUD extends GameObjects.Container {
   public update({ time, delta }) {
     const player = this.scene.player;
     const velocity = player.body.velocity;
+    const angVelocity = player.body.angularVelocity;
+    const ship = player.ship;
     const drag = player.body.drag;
     const fmt = (str: string) => str.padEnd(36);
     const toFixed = (num: number, digits = 3) => {
@@ -34,8 +36,10 @@ export class DebugHUD extends GameObjects.Container {
 
     this.text.setText([
       fmt(`Position: { x: ${Math.round(player.x)}, y: ${Math.round(player.y)} }`),
+      fmt(`Player rotation: ${toFixed(player.rotation, 5)} (${Math.round(player.angle)})`),
       fmt(`Speed: ${toFixed(player.body.speed)}`),
       fmt(`Velocity: { x: ${toFixed(velocity.x)}, y: ${toFixed(velocity.y)} }`),
+      fmt(`Angular Velocity: ${toFixed(player.body.angularVelocity)}`),
       fmt(`Drag: { x: ${toFixed(drag.x)}, y: ${toFixed(drag.y)} }`),
       fmt(`Altitude: ${player.altitude}`),
       fmt(`Player object count: ${player.length}`),
