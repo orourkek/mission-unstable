@@ -25,7 +25,6 @@ export class MainScene extends Scene {
 
   constructor(){
     super('MainScene');
-    (window as any).scene = this;
   }
 
   preload() {
@@ -88,6 +87,8 @@ export class MainScene extends Scene {
 
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this);
+    (window as any).scene = this;
+    (window as any).player = this.player;
   }
 
   update(time: number, delta: number) {
