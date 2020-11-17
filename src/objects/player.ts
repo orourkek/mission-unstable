@@ -113,6 +113,7 @@ export class Player extends GameObjects.Container {
     // console.log(`Relative coords: (${relativeX}, ${relativeY})`);
 
     asteroid.setPosition(relativeX, relativeY);
+    asteroid.setAngle(180 - Math.abs(Math.abs(this.angle - 0) - 180));
     this.add(asteroid);
   }
 }
