@@ -43,7 +43,7 @@ export class Player extends GameObjects.Container {
 
     this.body.setCollideWorldBounds(true);
     this.body.setMaxVelocity(this.MAX_VELOCITY);
-    this.body.setAngularDrag(250);
+    // this.body.setAngularDrag(250);
   }
 
   public update({ time, delta, keyboard }) {
@@ -60,7 +60,7 @@ export class Player extends GameObjects.Container {
 
     this.scene.physics.velocityFromAngle(
       this.angle,
-      150,
+      this.body.speed,
       this.body.velocity,
     );
 
@@ -89,8 +89,6 @@ export class Player extends GameObjects.Container {
     }
 
     this.ship.update({ time, delta, keyboard });
-
-    const currentMaxVelocity = this.body.maxVelocity;
 
     this.body.setMaxVelocity(
       Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
