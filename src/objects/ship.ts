@@ -12,8 +12,8 @@ export class Ship extends GameObjects.Image {
     // this.scene.physics.add.existing(this);
 
     this.setScale(2);
-    this.setAngle(-90);
-    this.setOrigin(1, 0);
+    // this.setAngle(-90);
+    // this.setOrigin(0, 0);
 
     // this.setCollideWorldBounds(true);
     // this.setMaxVelocity(300);

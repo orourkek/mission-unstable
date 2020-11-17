@@ -4,6 +4,10 @@ import { Ship } from './ship';
 
 export class Player extends GameObjects.Container {
 
+  // Amount of drag to be applied for each additional object in the container
+  public readonly DRAG_FACTOR = 20;
+  public readonly MAX_VELOCITY = 300;
+
   public launched = false;
   public altitude: number;
   public escapeVelocity: number;
@@ -22,19 +26,24 @@ export class Player extends GameObjects.Container {
 
     this.escapeVelocity = -(gameConfig.physics.arcade.gravity.y);
 
-    // align to bottom edge
-    this.setPosition(gameBounds.centerX, gameBounds.bottom);
-    this.setDepth(100);
-
     this.ship = new Ship(scene);
     this.add(this.ship);
 
     this.scene.add.existing(this);
-    // this.scene.physics.add.existing(this);
     this.scene.physics.world.enable(this);
 
+    // align to bottom edge
+    this.setPosition(gameBounds.centerX, gameBounds.bottom);
+    this.setDepth(100);
+    this.setAngle(-90);
+    this.body.setOffset(
+      -(this.ship.displayWidth / 2),
+      -(this.ship.displayHeight / 2),
+    );
+
     this.body.setCollideWorldBounds(true);
-    this.body.setMaxVelocity(300);
+    this.body.setMaxVelocity(this.MAX_VELOCITY);
+    this.body.setAngularDrag(250);
   }
 
   public update({ time, delta, keyboard }) {
@@ -49,15 +58,44 @@ export class Player extends GameObjects.Container {
       return;
     }
 
+    this.scene.physics.velocityFromAngle(
+      this.angle,
+      150,
+      this.body.velocity,
+    );
+
+    // if (keyboard.up.isDown) {
+    //   this.scene.physics.velocityFromAngle(
+    //     this.angle,
+    //     400,
+    //     this.body.velocity,
+    //   );
+    //   // this.body.setAccelerationY(this.escapeVelocity - 20);
+    // } else if (keyboard.down.isDown) {
+    //   // this.body.setAccelerationY(this.escapeVelocity + 20);
+    // } else {
+    //   this.body.setAcceleration(0, 0);
+    // }
+
     if (keyboard.left.isDown) {
-      this.body.setVelocityX(-300);
+      // this.body.setAngularVelocity(-300);
+      this.body.setAngularAcceleration(-150);
     } else if (keyboard.right.isDown) {
-      this.body.setVelocityX(300);
+      // this.body.setAngularVelocity(300);
+      this.body.setAngularAcceleration(150);
     } else {
-      this.body.setVelocityX(0);
+      // this.body.setAngularVelocity(0);
+      this.body.setAngularAcceleration(0);
     }
 
     this.ship.update({ time, delta, keyboard });
+
+    const currentMaxVelocity = this.body.maxVelocity;
+
+    this.body.setMaxVelocity(
+      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
+      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
+    );
   }
 
   public doLaunch() {
@@ -66,9 +104,17 @@ export class Player extends GameObjects.Container {
   }
 
   public subsumeAsteroid(asteroid: Asteroid) {
-    const relativeX = (asteroid.x - this.x);
-    const relativeY = (asteroid.y - this.y);
-    this.add(asteroid);
+    const offsetX = (asteroid.x - this.x);
+    const offsetY = (asteroid.y - this.y);
+    const sin = Math.sin(this.rotation);
+    const cos = Math.cos(this.rotation);
+    const relativeX = ((offsetY * sin) + (offsetX * cos));
+    const relativeY = ((offsetY * cos) - (offsetX * sin));
+    // console.log(`Asteroid coords: (${asteroid.x}, ${asteroid.y})`);
+    // console.log(`Ship coords: (${this.x}, ${this.y})`);
+    // console.log(`Relative coords: (${relativeX}, ${relativeY})`);
+
     asteroid.setPosition(relativeX, relativeY);
+    this.add(asteroid);
   }
 }
