@@ -13,7 +13,8 @@ export class Player extends GameObjects.Container {
   public escapeVelocity: number;
 
   // Override body type to be dynamic (non-static)
-  public body: Physics.Arcade.Body;
+  // public body: Physics.Arcade.Body;
+  // public body: MatterJS.Body;
 
   public ship: Ship;
   public particleEmitter: GameObjects.Particles.ParticleEmitter;
@@ -21,33 +22,36 @@ export class Player extends GameObjects.Container {
   public constructor(scene: Scene, x = 0, y = 0) {
     super(scene);
 
-    const gameBounds = this.scene.physics.world.bounds;
+    // const gameBounds = this.scene.physics.world.bounds;
     const gameConfig = this.scene.game.config;
 
-    this.escapeVelocity = -(gameConfig.physics.arcade.gravity.y);
+    // this.escapeVelocity = -(gameConfig.physics.matter.gravity.y);
+    this.escapeVelocity = -320;
 
     this.ship = new Ship(scene);
     this.add(this.ship);
 
     this.scene.add.existing(this);
-    this.scene.physics.world.enable(this);
+    // this.scene.physics.world.enable(this);
+    this.scene.matter.add.gameObject(this);
 
     // align to bottom edge
-    this.setPosition(gameBounds.centerX, gameBounds.bottom);
+    this.setPosition(250, 250);
     this.setDepth(100);
     this.setAngle(-90);
-    this.body.setOffset(
-      -(this.ship.displayWidth / 2),
-      -(this.ship.displayHeight / 2),
-    );
+    // (this.body as MatterJS.Body).setOffset(
+    //   -(this.ship.displayWidth / 2),
+    //   -(this.ship.displayHeight / 2),
+    // );
 
-    this.body.setCollideWorldBounds(true);
-    this.body.setMaxVelocity(this.MAX_VELOCITY);
+    // this.body.setCollideWorldBounds(true);
+    // this.body.setMaxVelocity(this.MAX_VELOCITY);
     // this.body.setAngularDrag(250);
   }
 
   public update({ time, delta, keyboard }) {
-    const worldHeight = this.scene.physics.world.bounds.height;
+    // const worldHeight = this.scene.physics.world.bounds.height;
+    const worldHeight = 500;
     const altitude = (worldHeight - this.y - (this.displayHeight / 2));
     this.altitude = Math.round(altitude);
 
@@ -58,11 +62,11 @@ export class Player extends GameObjects.Container {
       return;
     }
 
-    this.scene.physics.velocityFromAngle(
-      this.angle,
-      this.body.speed,
-      this.body.velocity,
-    );
+    // this.scene.physics.velocityFromAngle(
+    //   this.angle,
+    //   this.body.speed,
+    //   this.body.velocity,
+    // );
 
     // if (keyboard.up.isDown) {
     //   this.scene.physics.velocityFromAngle(
@@ -77,23 +81,23 @@ export class Player extends GameObjects.Container {
     //   this.body.setAcceleration(0, 0);
     // }
 
-    if (keyboard.left.isDown) {
-      // this.body.setAngularVelocity(-300);
-      this.body.setAngularAcceleration(-150);
-    } else if (keyboard.right.isDown) {
-      // this.body.setAngularVelocity(300);
-      this.body.setAngularAcceleration(150);
-    } else {
-      // this.body.setAngularVelocity(0);
-      this.body.setAngularAcceleration(0);
-    }
+    // if (keyboard.left.isDown) {
+    //   // this.body.setAngularVelocity(-300);
+    //   this.body.setAngularAcceleration(-150);
+    // } else if (keyboard.right.isDown) {
+    //   // this.body.setAngularVelocity(300);
+    //   this.body.setAngularAcceleration(150);
+    // } else {
+    //   // this.body.setAngularVelocity(0);
+    //   this.body.setAngularAcceleration(0);
+    // }
 
     this.ship.update({ time, delta, keyboard });
 
-    this.body.setMaxVelocity(
-      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
-      Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
-    );
+    // this.body.setMaxVelocity(
+    //   Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
+    //   Math.max(0, (this.MAX_VELOCITY - (this.length * this.DRAG_FACTOR))),
+    // );
   }
 
   public doLaunch() {

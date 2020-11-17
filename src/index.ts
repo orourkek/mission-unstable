@@ -12,7 +12,13 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     pixelArt: true,
   },
   physics: {
-    default: 'arcade',
+    default: 'matter',
+    matter: {
+      debug: true,
+      gravity: {
+        y: 300,
+      },
+    },
     arcade: {
       fps: 60,
       debug: true,

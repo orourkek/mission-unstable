@@ -38,7 +38,7 @@ export class MainScene extends Scene {
   create() {
     const gameWidth = parseInt(`${this.game.config.width}`);
     const gameHeight = parseInt(`${this.game.config.height}`);
-    this.physics.world.setBounds(
+    this.matter.world.setBounds(
       0,
       0,
       (gameWidth * 3),
@@ -47,32 +47,32 @@ export class MainScene extends Scene {
 
     this.cameras.main.setSize(gameWidth, gameHeight);
 
-    const bounds = this.physics.world.bounds;
+    // const bounds = this.matter.world.bounds;
 
-    this.bg = this.add.tileSprite(
-      bounds.centerX,
-      bounds.centerY,
-      bounds.width * 2,
-      bounds.height * 2,
-      'background'
-    );
-    this.bg.setScrollFactor(0);
-    this.bg.setScale(0.5);
+    // this.bg = this.add.tileSprite(
+    //   bounds.centerX,
+    //   bounds.centerY,
+    //   bounds.width * 2,
+    //   bounds.height * 2,
+    //   'background'
+    // );
+    // this.bg.setScrollFactor(0);
+    // this.bg.setScale(0.5);
 
     this.ground = new Ground(this);
-    this.scenery = new Scenery(this);
+    // this.scenery = new Scenery(this);
     this.player = new Player(this);
-    this.asteroids = this.add.group(this.createRandomAsteroids());
+    // this.asteroids = this.add.group(this.createRandomAsteroids());
 
-    this.physics.add.collider(this.player, this.ground);
+    // this.matter.add.collider(this.player, this.ground);
 
-    this.physics.add.overlap(
-      this.player,
-      this.asteroids,
-      (player: Player, asteroid: Asteroid) => {
-        this.handleAsteroidCollision(asteroid);
-      }
-    );
+    // this.matter.add.overlap(
+    //   this.player,
+    //   this.asteroids,
+    //   (player: Player, asteroid: Asteroid) => {
+    //     this.handleAsteroidCollision(asteroid);
+    //   }
+    // );
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.followOffset.set(0, 100);
@@ -99,34 +99,34 @@ export class MainScene extends Scene {
     this.bg.tilePositionY += this.player.body.deltaY() * 1;
   }
 
-  private handleAsteroidCollision(asteroid: Asteroid) {
-    this.asteroids.remove(asteroid);
-    this.player.subsumeAsteroid(asteroid);
-    this.physics.add.overlap(
-      asteroid,
-      this.asteroids,
-      (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
-        this.handleAsteroidCollision(spaceAsteroid);
-      }
-    );
-  }
+  // private handleAsteroidCollision(asteroid: Asteroid) {
+  //   this.asteroids.remove(asteroid);
+  //   this.player.subsumeAsteroid(asteroid);
+  //   this.matter.add.overlap(
+  //     asteroid,
+  //     this.asteroids,
+  //     (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
+  //       this.handleAsteroidCollision(spaceAsteroid);
+  //     }
+  //   );
+  // }
 
-  private createRandomAsteroids(): Asteroid[] {
-    const vSpacing = 100;
-    const hSpacing = 1000;
-    const { bottom, width, centerX } = this.physics.world.bounds;
-    const asteroids = [];
-    let lastX = centerX;
+  // private createRandomAsteroids(): Asteroid[] {
+  //   const vSpacing = 100;
+  //   const hSpacing = 1000;
+  //   const { bottom, width, centerX } = this.matter.world.bounds;
+  //   const asteroids = [];
+  //   let lastX = centerX;
 
-    for (let y = (bottom - vSpacing); y > 0; y -= vSpacing) {
-      const x = PMath.RND.between(
-        Math.max(0, (lastX - hSpacing / 2)),
-        Math.min(width, (lastX + hSpacing / 2)),
-      );
-      asteroids.push(new Asteroid(this, x, y));
-      lastX = x;
-    }
+  //   for (let y = (bottom - vSpacing); y > 0; y -= vSpacing) {
+  //     const x = PMath.RND.between(
+  //       Math.max(0, (lastX - hSpacing / 2)),
+  //       Math.min(width, (lastX + hSpacing / 2)),
+  //     );
+  //     asteroids.push(new Asteroid(this, x, y));
+  //     lastX = x;
+  //   }
 
-    return asteroids;
-  }
+  //   return asteroids;
+  // }
 }
