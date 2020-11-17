@@ -8,9 +8,11 @@ export class Asteroid extends Physics.Arcade.Image {
   constructor(scene: Scene, x = 0, y = 0) {
     super(scene, x, y, 'spaceJunk');
 
+    scene.add.existing(this);
     scene.physics.add.existing(this);
 
     this.body.setAllowGravity(false);
     this.body.setImmovable(true);
+    this.setDepth(90);
   }
 }
