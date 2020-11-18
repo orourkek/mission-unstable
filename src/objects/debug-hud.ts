@@ -5,10 +5,13 @@ export class DebugHUD extends GameObjects.Container {
 
   public scene: MainScene;
 
+  private enabled: boolean;
   private text: GameObjects.Text;
 
-  public constructor(scene: Scene) {
+  public constructor(scene: Scene, enabled = false) {
     super(scene, 16, 16);
+
+    this.enabled = enabled;
 
     this.text = this.scene.add.text(0, 0, '', {
       fontSize: '16px',
@@ -19,10 +22,17 @@ export class DebugHUD extends GameObjects.Container {
 
     this.add(this.text);
     this.setScrollFactor(0);
-    scene.add.existing(this);
+
+    if (this.enabled) {
+      scene.add.existing(this);
+    }
   }
 
   public update({ time, delta }) {
+    if (!this.enabled) {
+      return;
+    }
+
     const player = this.scene.player;
     const velocity = player.body.velocity;
     const accel = player.body.acceleration;

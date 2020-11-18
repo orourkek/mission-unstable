@@ -86,7 +86,7 @@ export class MainScene extends Scene {
     };
 
     // TODO: hide by default
-    this.debugHUD = new DebugHUD(this);
+    this.debugHUD = new DebugHUD(this, false);
     (window as any).scene = this;
     (window as any).player = this.player;
   }
