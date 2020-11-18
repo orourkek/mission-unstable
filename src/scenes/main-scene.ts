@@ -3,7 +3,7 @@ import shipImg from '../assets/rocket_32.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
-import spaceJunkImg from '../assets/space_junk_32.png';
+import asteroidImg from '../assets/asteroid_32.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
@@ -32,7 +32,7 @@ export class MainScene extends Scene {
     this.load.image('flare', flareImg);
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
-    this.load.image('spaceJunk', spaceJunkImg);
+    this.load.image('asteroid', asteroidImg);
   }
 
   create() {

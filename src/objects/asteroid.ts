@@ -6,7 +6,7 @@ export class Asteroid extends Physics.Arcade.Image {
   public body: Physics.Arcade.Body;
 
   constructor(scene: Scene, x = 0, y = 0) {
-    super(scene, x, y, 'spaceJunk');
+    super(scene, x, y, 'asteroid');
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
