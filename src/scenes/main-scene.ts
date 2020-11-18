@@ -4,11 +4,14 @@ import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
+import pitchInnerImg from '../assets/pitch_indicator_inner.png';
+import pitchOuterImg from '../assets/pitch_indicator_outer.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
 import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
+import { HUD } from '../objects/hud';
 
 export class MainScene extends Scene {
 
@@ -21,6 +24,7 @@ export class MainScene extends Scene {
   public scenery: Scenery;
   public player: Player;
   public debugHUD: DebugHUD;
+  public HUD: HUD;
   public asteroids: GameObjects.Group;
 
   constructor(){
@@ -33,6 +37,8 @@ export class MainScene extends Scene {
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
     this.load.image('asteroid', asteroidImg);
+    this.load.image('pitchIndicatorInner', pitchInnerImg);
+    this.load.image('pitchIndicatorOuter', pitchOuterImg);
   }
 
   create() {
@@ -85,6 +91,8 @@ export class MainScene extends Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
     };
 
+    this.HUD = new HUD(this);
+
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this, false);
     (window as any).scene = this;
@@ -94,6 +102,7 @@ export class MainScene extends Scene {
   update(time: number, delta: number) {
     this.player.update({ time, delta, keyboard: this.keyboard });
     this.debugHUD.update({ time, delta });
+    this.HUD.update({ time, delta });
 
     this.bg.tilePositionX += this.player.body.deltaX() * 1;
     this.bg.tilePositionY += this.player.body.deltaY() * 1;

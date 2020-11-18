@@ -8,6 +8,7 @@ export class Player extends GameObjects.Container {
   public readonly DRAG_FACTOR = 25;
   public readonly MAX_VELOCITY = 300;
   public readonly BASE_ANGULAR_ACCEL = 150;
+  public readonly BASE_ANGLE = -90;
 
   public attachedAsteroids = {
     left: 0,
@@ -43,7 +44,7 @@ export class Player extends GameObjects.Container {
     // align to bottom edge
     this.setPosition(gameBounds.centerX, gameBounds.bottom);
     this.setDepth(100);
-    this.setAngle(-90);
+    this.setAngle(this.BASE_ANGLE);
     this.body.setOffset(
       -(this.ship.displayWidth / 2),
       -(this.ship.displayHeight / 2),
