@@ -6,6 +6,7 @@ import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
 import pitchInnerImg from '../assets/pitch_indicator_inner.png';
 import pitchOuterImg from '../assets/pitch_indicator_outer.png';
+import weightDistImg from '../assets/weight_distribution_indicator.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
@@ -39,6 +40,7 @@ export class MainScene extends Scene {
     this.load.image('asteroid', asteroidImg);
     this.load.image('pitchIndicatorInner', pitchInnerImg);
     this.load.image('pitchIndicatorOuter', pitchOuterImg);
+    this.load.image('weightDistributionIndicator', weightDistImg);
   }
 
   create() {
