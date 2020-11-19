@@ -6,13 +6,18 @@ import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
 import pitchInnerImg from '../assets/pitch_indicator_inner.png';
 import pitchOuterImg from '../assets/pitch_indicator_outer.png';
-import weightDistImg from '../assets/weight_distribution_indicator.png';
+import wdFrameImg from '../assets/gauges/wd_frame.png';
+import wdBgImg from '../assets/gauges/wd_bg.png';
+import wdLineImg from '../assets/gauges/wd_line.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
 import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
-import { HUD } from '../objects/hud';
+import {
+  WeightDistributionIndicator
+} from '../objects/gauges/weight-distribution';
+import { PitchIndicator } from '../objects/gauges/pitch';
 
 export class MainScene extends Scene {
 
@@ -25,7 +30,8 @@ export class MainScene extends Scene {
   public scenery: Scenery;
   public player: Player;
   public debugHUD: DebugHUD;
-  public HUD: HUD;
+  public pitchIndicator: PitchIndicator;
+  public weightDistributionIndicator: WeightDistributionIndicator;
   public asteroids: GameObjects.Group;
 
   constructor(){
@@ -40,7 +46,9 @@ export class MainScene extends Scene {
     this.load.image('asteroid', asteroidImg);
     this.load.image('pitchIndicatorInner', pitchInnerImg);
     this.load.image('pitchIndicatorOuter', pitchOuterImg);
-    this.load.image('weightDistributionIndicator', weightDistImg);
+    this.load.image('gauges/wdFrame', wdFrameImg);
+    this.load.image('gauges/wdBg', wdBgImg);
+    this.load.image('gauges/wdLine', wdLineImg);
   }
 
   create() {
@@ -93,7 +101,11 @@ export class MainScene extends Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
     };
 
-    this.HUD = new HUD(this);
+    this.pitchIndicator = new PitchIndicator(this);
+    this.weightDistributionIndicator = new WeightDistributionIndicator(
+      this,
+      this.pitchIndicator.displayWidth,
+    );
 
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this, false);
@@ -104,7 +116,8 @@ export class MainScene extends Scene {
   update(time: number, delta: number) {
     this.player.update({ time, delta, keyboard: this.keyboard });
     this.debugHUD.update({ time, delta });
-    this.HUD.update({ time, delta });
+    this.pitchIndicator.update({ time, delta });
+    this.weightDistributionIndicator.update({ time, delta });
 
     this.bg.tilePositionX += this.player.body.deltaX() * 1;
     this.bg.tilePositionY += this.player.body.deltaY() * 1;
