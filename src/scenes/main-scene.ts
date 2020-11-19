@@ -1,5 +1,5 @@
 import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
-import shipImg from '../assets/rocket_32.png';
+import shipImg from '../assets/ship.png';
 import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
