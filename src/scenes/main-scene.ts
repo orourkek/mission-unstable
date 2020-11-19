@@ -4,8 +4,8 @@ import treesImg from '../assets/trees.png';
 import flareImg from '../assets/thruster-flare.png';
 import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
-import pitchInnerImg from '../assets/pitch_indicator_inner.png';
-import pitchOuterImg from '../assets/pitch_indicator_outer.png';
+import pitchInnerImg from '../assets/gauges/pitch_inner.png';
+import pitchFrameImg from '../assets/gauges/pitch_frame.png';
 import wdFrameImg from '../assets/gauges/wd_frame.png';
 import wdBgImg from '../assets/gauges/wd_bg.png';
 import wdLineImg from '../assets/gauges/wd_line.png';
@@ -34,7 +34,7 @@ export class MainScene extends Scene {
   public weightDistributionIndicator: WeightDistributionIndicator;
   public asteroids: GameObjects.Group;
 
-  constructor(){
+  constructor() {
     super('MainScene');
   }
 
@@ -44,8 +44,8 @@ export class MainScene extends Scene {
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
     this.load.image('asteroid', asteroidImg);
-    this.load.image('pitchIndicatorInner', pitchInnerImg);
-    this.load.image('pitchIndicatorOuter', pitchOuterImg);
+    this.load.image('gauges/pitchInner', pitchInnerImg);
+    this.load.image('gauges/pitchFrame', pitchFrameImg);
     this.load.image('gauges/wdFrame', wdFrameImg);
     this.load.image('gauges/wdBg', wdBgImg);
     this.load.image('gauges/wdLine', wdLineImg);

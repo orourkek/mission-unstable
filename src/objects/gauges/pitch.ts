@@ -18,13 +18,13 @@ export class PitchIndicator extends GameObjects.Group {
     this.indicator = this.scene.add.image(
       0,
       0,
-      'pitchIndicatorInner'
+      'gauges/pitchInner'
     ).setScale(2);
 
     this.gaugeFrame = this.scene.add.image(
       0,
       0,
-      'pitchIndicatorOuter'
+      'gauges/pitchFrame'
     ).setScale(2);
 
     this.add(this.indicator);
