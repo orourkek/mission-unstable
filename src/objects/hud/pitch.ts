@@ -12,7 +12,11 @@ export class PitchIndicator extends GameObjects.Group {
     return this.gaugeFrame.displayWidth;
   }
 
-  constructor(scene: Scene) {
+  get displayHeight() {
+    return this.gaugeFrame.displayHeight;
+  }
+
+  constructor(scene: Scene, left: number, bottom: number) {
     super(scene);
 
     this.indicator = this.scene.add.image(
@@ -33,9 +37,8 @@ export class PitchIndicator extends GameObjects.Group {
     scene.add.existing(this);
 
     const { displayHeight, displayWidth } = this.gaugeFrame;
-    const camera = this.scene.cameras.main;
-    const x = camera.centerX - (camera.width / 2) + (displayWidth / 2) + 16;
-    const y = camera.height - (displayHeight / 2) - 16;
+    const x = left + (displayWidth / 2);
+    const y = bottom - (displayHeight / 2);
 
     this.gaugeFrame.setPosition(x, y).setScrollFactor(0);
     this.indicator.setPosition(x, y).setScrollFactor(0);

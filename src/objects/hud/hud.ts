@@ -5,6 +5,7 @@ import { WeightDistributionIndicator } from './weight-distribution';
 
 export class HUD {
 
+  public padding = 16;
   public scene: MainScene;
 
   public pitchIndicator: PitchIndicator;
@@ -12,10 +13,16 @@ export class HUD {
 
   constructor(scene: MainScene) {
     this.scene = scene;
-    this.pitchIndicator = new PitchIndicator(this.scene);
+
+    const camera = this.scene.cameras.main;
+    const left = camera.centerX - (camera.width / 2) + this.padding;
+    const bottom = camera.height - this.padding;
+
+    this.pitchIndicator = new PitchIndicator(this.scene, left, bottom);
     this.weightDistributionIndicator = new WeightDistributionIndicator(
       this.scene,
-      this.pitchIndicator.displayWidth,
+      (left + this.pitchIndicator.displayWidth),
+      bottom,
     );
   }
 

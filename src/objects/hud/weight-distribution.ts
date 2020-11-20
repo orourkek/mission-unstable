@@ -9,7 +9,15 @@ export class WeightDistributionIndicator extends GameObjects.Group {
   private bg: GameObjects.Image;
   private indicator: GameObjects.Image;
 
-  constructor(scene: Scene, xOffset = 0) {
+  get displayWidth() {
+    return this.frame.displayWidth;
+  }
+
+  get displayHeight() {
+    return this.frame.displayHeight;
+  }
+
+  constructor(scene: Scene, left: number, bottom: number) {
     super(scene);
 
     this.bg = this.scene.add.image(0, 0, 'gauges/wdBg').setScale(2);
@@ -23,10 +31,8 @@ export class WeightDistributionIndicator extends GameObjects.Group {
     scene.add.existing(this);
 
     const { displayHeight, displayWidth } = this.frame;
-    const camera = this.scene.cameras.main;
-    const absoluteLeft = camera.centerX - (camera.width / 2);
-    const x = absoluteLeft + (displayWidth / 2) + xOffset + 16;
-    const y = camera.height - (displayHeight / 2) - 16;
+    const x = left + (displayWidth / 2);
+    const y = bottom - (displayHeight / 2);
 
     this.bg.setScrollFactor(0).setPosition(x, y);
     this.indicator.setScrollFactor(0).setPosition(x, y);
