@@ -1,6 +1,5 @@
 import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
 import { Asteroid } from './asteroid';
-import { Ship } from './ship';
 
 export class Player extends GameObjects.Container {
 
@@ -24,8 +23,9 @@ export class Player extends GameObjects.Container {
   // Override body type to be dynamic (non-static)
   public body: Physics.Arcade.Body;
 
-  public ship: Ship;
-  public particleEmitter: GameObjects.Particles.ParticleEmitter;
+  public ship: GameObjects.Image;
+  public thrusterParticles: GameObjects.Particles.ParticleEmitterManager;
+  public thrusterEmitter: GameObjects.Particles.ParticleEmitter;
 
   public constructor(scene: Scene, x = 0, y = 0) {
     super(scene);
@@ -35,7 +35,7 @@ export class Player extends GameObjects.Container {
 
     this.escapeVelocity = -(gameConfig.physics.arcade.gravity.y);
 
-    this.ship = new Ship(scene);
+    this.ship = this.scene.add.image(x, y, 'ship').setScale(2);
     this.add(this.ship);
 
     this.scene.add.existing(this);
@@ -53,6 +53,8 @@ export class Player extends GameObjects.Container {
     this.body.setCollideWorldBounds(true);
     this.body.setMaxVelocity(this.MAX_VELOCITY);
     // this.body.setAngularDrag(250);
+
+    this.setupThrusterParticles();
   }
 
   public update({ time, delta, keyboard }) {
@@ -102,12 +104,11 @@ export class Player extends GameObjects.Container {
     } else {
       this.body.setAngularAcceleration(this.angularAccelerationAdjustment);
     }
-
-    this.ship.update({ time, delta, keyboard });
   }
 
   public doLaunch() {
     this.launched = true;
+    this.thrusterEmitter.start();
     this.body.setAccelerationY(this.escapeVelocity - 20);
   }
 
@@ -137,5 +138,33 @@ export class Player extends GameObjects.Container {
     asteroid.setPosition(relativeX, relativeY);
     asteroid.setAngle(180 - Math.abs(Math.abs(this.angle - 0) - 180));
     this.add(asteroid);
+  }
+
+  protected setupThrusterParticles() {
+    this.thrusterParticles = this.scene.add.particles('flare');
+    this.thrusterParticles.setDepth(this.depth - 1);
+    this.thrusterEmitter = this.thrusterParticles.createEmitter({
+      on: false,
+      bounds: this.scene.physics.world.bounds,
+      speed: 250,
+      scale: { start: 1.5, end: 0.25 },
+      angle: {
+        onEmit: () => {
+          var v = Phaser.Math.Between(-25, 25);
+          return (this.angle - 180) + v;
+        }
+      },
+      lifespan: {
+        onEmit: () => {
+          const maxSpeed = this.MAX_VELOCITY;
+          const pctOfMax = PMath.Percent(this.body.speed, 0, maxSpeed);
+
+          if (this.altitude < 50) {
+            return 3000;
+          }
+          return 250 + ((1 - pctOfMax) * 100);
+        }
+      },
+    }).startFollow(this);
   }
 }
