@@ -23,20 +23,20 @@ export class HUD {
     this.pitchIndicator = new PitchIndicator(
       this.scene,
       (left + this.padding),
-      (bottom - this.padding),
+      (bottom - 2 * this.padding),
     ).setDepth(depth);
 
     this.weightDistributionIndicator = new WeightDistributionIndicator(
       this.scene,
       (left + (2 * this.padding) + this.pitchIndicator.displayWidth),
-      (bottom - this.padding),
+      (bottom - 2 * this.padding),
     ).setDepth(depth);
 
     const gaugeHeight = Math.max(
       this.pitchIndicator.displayHeight,
       this.weightDistributionIndicator.displayHeight,
     );
-    const bgHeight = gaugeHeight + (2 * this.padding);
+    const bgHeight = gaugeHeight + (3 * this.padding);
     const bgWidth = (
       (3 * this.padding) +
       this.pitchIndicator.displayWidth +

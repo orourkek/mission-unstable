@@ -8,6 +8,7 @@ export class WeightDistributionIndicator extends GameObjects.Group {
   private frame: GameObjects.Image;
   private bg: GameObjects.Image;
   private indicator: GameObjects.Image;
+  private label: GameObjects.Text;
 
   get displayWidth() {
     return this.frame.displayWidth;
@@ -37,6 +38,12 @@ export class WeightDistributionIndicator extends GameObjects.Group {
     this.bg.setScrollFactor(0).setPosition(x, y);
     this.indicator.setScrollFactor(0).setPosition(x, y);
     this.frame.setScrollFactor(0).setPosition(x, y);
+
+    this.label = this.scene.add.text(x, bottom, 'WEIGHT BALANCE', {
+      fontSize: '14px',
+      fill: '#ffffff',
+    }).setScrollFactor(0).setOrigin(0.5, 0);
+    this.add(this.label);
   }
 
   public update() {

@@ -7,6 +7,7 @@ export class PitchIndicator extends GameObjects.Group {
 
   private indicator: GameObjects.Image;
   private gaugeFrame: GameObjects.Image;
+  private label: GameObjects.Text;
 
   get displayWidth() {
     return this.gaugeFrame.displayWidth;
@@ -42,6 +43,12 @@ export class PitchIndicator extends GameObjects.Group {
 
     this.gaugeFrame.setPosition(x, y).setScrollFactor(0);
     this.indicator.setPosition(x, y).setScrollFactor(0);
+
+    this.label = this.scene.add.text(x, bottom, 'PITCH', {
+      fontSize: '14px',
+      fill: '#ffffff',
+    }).setScrollFactor(0).setOrigin(0.5, 0);
+    this.add(this.label);
   }
 
   public update() {
