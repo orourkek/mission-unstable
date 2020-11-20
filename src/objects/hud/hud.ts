@@ -8,6 +8,7 @@ export class HUD {
   public padding = 16;
   public scene: MainScene;
 
+  public background: GameObjects.Rectangle;
   public pitchIndicator: PitchIndicator;
   public weightDistributionIndicator: WeightDistributionIndicator;
 
@@ -15,15 +16,40 @@ export class HUD {
     this.scene = scene;
 
     const camera = this.scene.cameras.main;
-    const left = camera.centerX - (camera.width / 2) + this.padding;
-    const bottom = camera.height - this.padding;
+    const left = camera.centerX - (camera.width / 2);
+    const bottom = camera.height;
+    const depth = this.scene.player.depth + 2;
 
-    this.pitchIndicator = new PitchIndicator(this.scene, left, bottom);
+    this.pitchIndicator = new PitchIndicator(
+      this.scene,
+      (left + this.padding),
+      (bottom - this.padding),
+    ).setDepth(depth);
+
     this.weightDistributionIndicator = new WeightDistributionIndicator(
       this.scene,
-      (left + this.pitchIndicator.displayWidth),
-      bottom,
+      (left + (2 * this.padding) + this.pitchIndicator.displayWidth),
+      (bottom - this.padding),
+    ).setDepth(depth);
+
+    const gaugeHeight = Math.max(
+      this.pitchIndicator.displayHeight,
+      this.weightDistributionIndicator.displayHeight,
     );
+    const bgHeight = gaugeHeight + (2 * this.padding);
+    const bgWidth = (
+      (3 * this.padding) +
+      this.pitchIndicator.displayWidth +
+      this.weightDistributionIndicator.displayWidth
+    );
+
+    this.background = this.scene.add.rectangle(
+      (left + bgWidth / 2),
+      (bottom - bgHeight / 2),
+      bgWidth,
+      bgHeight,
+      0x43434f,
+    ).setScrollFactor(0).setDepth(depth - 1);
   }
 
   public update() {
