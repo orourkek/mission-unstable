@@ -34,7 +34,7 @@ export class Scenery extends GameObjects.Group {
 
   createSky() {
     const worldBounds = this.scene.physics.world.bounds;
-    const width = worldBounds.width;
+    const width = worldBounds.width + (this.scene.cameras.main.width / 2);
     const height = (this.scene.cameras.main.height * 1.75);
     const texture = this.scene.textures.createCanvas(
       'skyGradient',
