@@ -141,13 +141,14 @@ export class MainScene extends Scene {
   }
 
   private createRandomAsteroids(): Asteroid[] {
-    const vSpacing = 40;
-    const hSpacing = 1500;
+    const vSpacing = 25;
+    const hSpacing = 2000;
+    const minAltitude = 600;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const asteroids = [];
     let lastX = centerX;
 
-    for (let y = (bottom - vSpacing); y > 0; y -= vSpacing) {
+    for (let y = (bottom - minAltitude); y > 0; y -= vSpacing) {
       const x = PMath.RND.between(
         Math.max(0, (lastX - hSpacing / 2)),
         Math.min(width, (lastX + hSpacing / 2)),
