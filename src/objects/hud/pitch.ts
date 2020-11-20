@@ -41,7 +41,7 @@ export class PitchIndicator extends GameObjects.Group {
     this.indicator.setPosition(x, y).setScrollFactor(0);
   }
 
-  public update({ time, delta }) {
+  public update() {
     const player = this.scene.player;
     this.indicator.setAngle(player.angle - player.BASE_ANGLE);
   }

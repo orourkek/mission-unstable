@@ -14,11 +14,8 @@ import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
 import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
-import {
-  WeightDistributionIndicator
-} from '../objects/gauges/weight-distribution';
-import { PitchIndicator } from '../objects/gauges/pitch';
 import { getOverlap } from '../util/get-overlap';
+import { HUD } from '../objects/hud/hud';
 
 export class MainScene extends Scene {
 
@@ -31,8 +28,7 @@ export class MainScene extends Scene {
   public scenery: Scenery;
   public player: Player;
   public debugHUD: DebugHUD;
-  public pitchIndicator: PitchIndicator;
-  public weightDistributionIndicator: WeightDistributionIndicator;
+  public hud: HUD;
   public asteroids: GameObjects.Group;
 
   constructor() {
@@ -104,11 +100,7 @@ export class MainScene extends Scene {
       space: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE),
     };
 
-    this.pitchIndicator = new PitchIndicator(this);
-    this.weightDistributionIndicator = new WeightDistributionIndicator(
-      this,
-      this.pitchIndicator.displayWidth,
-    );
+    this.hud = new HUD(this);
 
     // TODO: hide by default
     this.debugHUD = new DebugHUD(this, false);
@@ -119,8 +111,7 @@ export class MainScene extends Scene {
   update(time: number, delta: number) {
     this.player.update({ time, delta, keyboard: this.keyboard });
     this.debugHUD.update({ time, delta });
-    this.pitchIndicator.update({ time, delta });
-    this.weightDistributionIndicator.update({ time, delta });
+    this.hud.update();
 
     this.bg.tilePositionX += this.player.body.deltaX() * 1;
     this.bg.tilePositionY += this.player.body.deltaY() * 1;

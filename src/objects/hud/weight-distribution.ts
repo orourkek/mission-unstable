@@ -33,7 +33,7 @@ export class WeightDistributionIndicator extends GameObjects.Group {
     this.frame.setScrollFactor(0).setPosition(x, y);
   }
 
-  public update({ time, delta }) {
+  public update() {
     const { attachedAsteroids } = this.scene.player;
     const { centerX, width: frameWidth } = this.frame.getBounds();
     const min = -(frameWidth / 2) + 14;
