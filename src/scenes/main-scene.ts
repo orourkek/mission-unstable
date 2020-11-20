@@ -18,6 +18,7 @@ import {
   WeightDistributionIndicator
 } from '../objects/gauges/weight-distribution';
 import { PitchIndicator } from '../objects/gauges/pitch';
+import { getOverlap } from '../util/get-overlap';
 
 export class MainScene extends Scene {
 
@@ -86,7 +87,9 @@ export class MainScene extends Scene {
       this.player,
       this.asteroids,
       (player: Player, asteroid: Asteroid) => {
-        this.handleAsteroidCollision(asteroid);
+        if (this.customOverlapCheck(player.ship, asteroid)) {
+          this.handleAsteroidCollision(asteroid);
+        }
       }
     );
 
@@ -130,7 +133,9 @@ export class MainScene extends Scene {
       asteroid,
       this.asteroids,
       (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
-        this.handleAsteroidCollision(spaceAsteroid);
+        if (this.customOverlapCheck(playerAsteroid, spaceAsteroid)) {
+          this.handleAsteroidCollision(spaceAsteroid);
+        }
       }
     );
   }
@@ -152,5 +157,43 @@ export class MainScene extends Scene {
     }
 
     return asteroids;
+  }
+
+  /**
+   * Overlap check that allows a certain amount of overlap to
+   * compensate for using AABB physics with rotated bodies.
+   */
+  private customOverlapCheck(
+    obj1: GameObjects.Components.GetBounds,
+    obj2: GameObjects.Components.GetBounds,
+  ) {
+    const obj1Bounds = obj1.getBounds();
+    const obj2Bounds = obj2.getBounds();
+    const overlap = getOverlap(obj1Bounds, obj2Bounds);
+
+    if (!overlap) {
+      return;
+    }
+
+    const overlapArea = overlap.width * overlap.height;
+    // So far in this game all assets are square, but this math should allow
+    // for non-square bounding boxes to still work with this function
+    const obj1MaxDim = Math.max(obj1Bounds.height, obj1Bounds.width);
+    const obj2MaxDim = Math.max(obj2Bounds.height, obj2Bounds.width);
+    const minOverlap = ((obj1MaxDim * 1/4) * (obj2MaxDim * 1/4));
+    // If overlap width|height is below minDimensions, consider it no overlap
+    const minDimensions = Math.min((obj1MaxDim * 1/4), (obj2MaxDim * 1/4));
+
+    if (overlapArea > minOverlap) {
+      // console.log(`area=${overlapArea.toFixed(2)} (${overlap.width.toFixed(2)} * ${overlap.height.toFixed(2)})`);
+      if (overlap.width > minDimensions && overlap.height > minDimensions) {
+        // console.log('-----------------------------------------------------');
+        return true;
+      }
+      // console.log('NOT ENOUGH OVERLAP YET');
+    } else {
+      // console.log(`area=${overlapArea.toFixed(2)} (${overlap.width.toFixed(2)} * ${overlap.height.toFixed(2)})`);
+    }
+    return false;
   }
 }
