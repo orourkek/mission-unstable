@@ -59,7 +59,7 @@ export class MainScene extends Scene {
       0,
       0,
       (gameWidth * 3),
-      (gameHeight * 10),
+      (gameHeight * 20),
     );
 
     this.cameras.main.setSize(gameWidth, gameHeight);
@@ -67,10 +67,10 @@ export class MainScene extends Scene {
     const bounds = this.physics.world.bounds;
 
     this.bg = this.add.tileSprite(
-      bounds.centerX,
-      bounds.centerY,
-      bounds.width * 2,
-      bounds.height * 2,
+      bounds.left,
+      bounds.top,
+      bounds.width + this.cameras.main.width,
+      bounds.height, // + this.cameras.main.height,
       'background'
     );
     this.bg.setScrollFactor(0);
