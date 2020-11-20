@@ -6,7 +6,7 @@ export class Player extends GameObjects.Container {
   // Amount of drag to be applied for each additional object in the container
   public readonly DRAG_FACTOR = 25;
   public readonly MAX_VELOCITY = 300;
-  public readonly BASE_ANGULAR_ACCEL = 150;
+  public readonly BASE_ANGULAR_ACCEL = 180;
   public readonly BASE_ANGLE = -90;
 
   public attachedAsteroids = {
