@@ -4,6 +4,7 @@ import treesImg from '../assets/trees.png';
 import flareImg from '../assets/rocket_flare.png';
 import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
+import satelliteImg from '../assets/satellite.png';
 import pitchInnerImg from '../assets/gauges/pitch_inner.png';
 import pitchFrameImg from '../assets/gauges/pitch_frame.png';
 import wdFrameImg from '../assets/gauges/wd_frame.png';
@@ -16,6 +17,7 @@ import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
 import { getOverlap } from '../util/get-overlap';
 import { HUD } from '../objects/hud/hud';
+import { Satellite } from '../objects/satellite';
 
 export class MainScene extends Scene {
 
@@ -30,6 +32,7 @@ export class MainScene extends Scene {
   public debugHUD: DebugHUD;
   public hud: HUD;
   public asteroids: GameObjects.Group;
+  public satellites: GameObjects.Group;
 
   constructor() {
     super('MainScene');
@@ -41,6 +44,7 @@ export class MainScene extends Scene {
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
     this.load.image('asteroid', asteroidImg);
+    this.load.image('satellite', satelliteImg);
     this.load.image('gauges/pitchInner', pitchInnerImg);
     this.load.image('gauges/pitchFrame', pitchFrameImg);
     this.load.image('gauges/wdFrame', wdFrameImg);
@@ -76,6 +80,7 @@ export class MainScene extends Scene {
     this.scenery = new Scenery(this);
     this.player = new Player(this);
     this.asteroids = this.add.group(this.createRandomAsteroids());
+    this.satellites = this.add.group(this.createRandomSatellites());
 
     this.physics.add.collider(this.player, this.ground);
 
@@ -85,6 +90,16 @@ export class MainScene extends Scene {
       (player: Player, asteroid: Asteroid) => {
         if (this.customOverlapCheck(player.ship, asteroid)) {
           this.handleAsteroidCollision(asteroid);
+        }
+      }
+    );
+
+    this.physics.add.overlap(
+      this.player,
+      this.satellites,
+      (player: Player, satellite: Satellite) => {
+        if (this.customOverlapCheck(player.ship, satellite)) {
+          satellite.destroy();
         }
       }
     );
@@ -129,6 +144,17 @@ export class MainScene extends Scene {
         }
       }
     );
+    this.physics.add.overlap(
+      asteroid,
+      this.satellites,
+      (playerAsteroid: Asteroid, satellite: Satellite) => {
+        if (this.customOverlapCheck(playerAsteroid, satellite)) {
+          this.player.handleSatelliteCollision(playerAsteroid, satellite);
+          asteroid.destroy();
+          satellite.destroy();
+        }
+      }
+    );
   }
 
   private createRandomAsteroids(): Asteroid[] {
@@ -149,6 +175,21 @@ export class MainScene extends Scene {
     }
 
     return asteroids;
+  }
+
+  private createRandomSatellites(): Satellite[] {
+    const vSpacing = 100;
+    const minAltitude = 100;
+    const { bottom, width, centerX } = this.physics.world.bounds;
+    const satellites = [];
+
+    for (let y = (bottom - minAltitude); y > 0; y -= vSpacing) {
+      const x = PMath.RND.between(0, width);
+      const velocity = (PMath.RND.between(25, 200) * PMath.RND.pick([ 1, -1 ]));
+      satellites.push(new Satellite(this, { x, y, velocity }));
+    }
+
+    return satellites;
   }
 
   /**
@@ -187,5 +228,22 @@ export class MainScene extends Scene {
       // console.log(`area=${overlapArea.toFixed(2)} (${overlap.width.toFixed(2)} * ${overlap.height.toFixed(2)})`);
     }
     return false;
+  }
+
+  private overlapWithCustomCheck<
+    T1 extends GameObjects.GameObject | GameObjects.Group,
+    T2 extends GameObjects.GameObject | GameObjects.Group,
+    CBArg1 = T1 extends GameObjects.Group ? GameObjects.GameObject : T1,
+    CBArg2 = T2 extends GameObjects.Group ? GameObjects.GameObject : T2,
+  >(obj1: T1, obj2: T2, callback: (a: CBArg1, b: CBArg2) => void) {
+    this.physics.add.overlap(
+      obj1,
+      obj2,
+      (first: any, second: any) => {
+        if (this.customOverlapCheck(first, second)) {
+          callback(first, second);
+        }
+      }
+    );
   }
 }

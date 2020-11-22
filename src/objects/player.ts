@@ -1,5 +1,6 @@
 import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
 import { Asteroid } from './asteroid';
+import { Satellite } from './satellite';
 
 export class Player extends GameObjects.Container {
 
@@ -138,6 +139,31 @@ export class Player extends GameObjects.Container {
     asteroid.setPosition(relativeX, relativeY);
     asteroid.setAngle(180 - Math.abs(Math.abs(this.angle - 0) - 180));
     this.add(asteroid);
+  }
+
+  public handleSatelliteCollision(asteroid: Asteroid, satellite: Satellite) {
+    this.each((pObj: GameObjects.GameObject) => {
+      if (!(pObj instanceof Asteroid)) {
+        return;
+      }
+      // Ideally this calc would use satellite instead of playerAsteroid
+      // but player object coordinates are in a different coord space
+      // (local to player 0,0)
+      const dist = PMath.Distance.Between(
+        asteroid.x,
+        asteroid.y,
+        pObj.x,
+        pObj.y,
+      );
+      if (dist < satellite.BLAST_RADIUS) {
+        if (pObj.y < 0) {
+          this.attachedAsteroids.left--;
+        } else if (pObj.y > 0) {
+          this.attachedAsteroids.right--;
+        }
+        pObj.destroy();
+      }
+    })
   }
 
   protected setupThrusterParticles() {
