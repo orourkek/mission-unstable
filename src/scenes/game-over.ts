@@ -26,13 +26,6 @@ export class GameOver extends Scene {
     super('GameOver');
   }
 
-  public preload() {
-    this.load.webfont(
-      'Press Start 2P',
-      'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'
-    );
-  }
-
   public init(data: any) {
     this.status = data.status || 'lose';
   }
