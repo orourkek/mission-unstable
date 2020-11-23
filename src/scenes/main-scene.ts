@@ -1,15 +1,4 @@
 import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
-import shipImg from '../assets/ship.png';
-import treesImg from '../assets/trees.png';
-import flareImg from '../assets/rocket_flare.png';
-import backgroundImg from '../assets/space.png';
-import asteroidImg from '../assets/asteroid_32.png';
-import satelliteImg from '../assets/satellite.png';
-import pitchInnerImg from '../assets/gauges/pitch_inner.png';
-import pitchFrameImg from '../assets/gauges/pitch_frame.png';
-import wdFrameImg from '../assets/gauges/wd_frame.png';
-import wdBgImg from '../assets/gauges/wd_bg.png';
-import wdLineImg from '../assets/gauges/wd_line.png';
 import { Player } from '../objects/player';
 import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
@@ -38,19 +27,7 @@ export class MainScene extends Scene {
     super('MainScene');
   }
 
-  preload() {
-    this.load.image('ship', shipImg);
-    this.load.image('flare', flareImg);
-    this.load.image('background', backgroundImg);
-    this.load.image('trees', treesImg);
-    this.load.image('asteroid', asteroidImg);
-    this.load.image('satellite', satelliteImg);
-    this.load.image('gauges/pitchInner', pitchInnerImg);
-    this.load.image('gauges/pitchFrame', pitchFrameImg);
-    this.load.image('gauges/wdFrame', wdFrameImg);
-    this.load.image('gauges/wdBg', wdBgImg);
-    this.load.image('gauges/wdLine', wdLineImg);
-  }
+  preload() {}
 
   create() {
     const gameWidth = parseInt(`${this.game.config.width}`);
@@ -121,6 +98,8 @@ export class MainScene extends Scene {
     this.debugHUD = new DebugHUD(this, false);
     (window as any).scene = this;
     (window as any).player = this.player;
+
+    this.cameras.main.fadeIn(300, 0, 0, 0);
   }
 
   update(time: number, delta: number) {
