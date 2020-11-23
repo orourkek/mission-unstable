@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
+import { WebFontLoaderPlugin } from 'phaser3-webfont-loader';
 import { MainScene } from './scenes/main-scene';
 import { TitleScene } from './scenes/title-scene';
+import { GameOver } from './scenes/game-over';
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -10,6 +12,13 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   backgroundColor: '#0e1224',
   render: {
     pixelArt: true,
+  },
+  plugins: {
+    global: [{
+      key: 'WebFontLoader',
+      plugin: WebFontLoaderPlugin,
+      start: true,
+    }],
   },
   physics: {
     default: 'arcade',
@@ -24,6 +33,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   scene: [
     // TitleScene,
     MainScene,
+    GameOver,
   ],
 };
 

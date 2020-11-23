@@ -246,4 +246,9 @@ export class MainScene extends Scene {
       }
     );
   }
+
+  public gameOver(status: 'win' | 'lose') {
+    this.scene.launch('GameOver', { status });
+    this.scene.pause();
+  }
 }
