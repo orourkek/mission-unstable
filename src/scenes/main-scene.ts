@@ -79,7 +79,7 @@ export class MainScene extends Scene {
       this.satellites,
       (player: Player, satellite: Satellite) => {
         if (this.customOverlapCheck(player.ship, satellite)) {
-          satellite.destroy();
+          this.gameOver('lose');
         }
       }
     );
@@ -158,7 +158,7 @@ export class MainScene extends Scene {
 
   private createRandomSatellites(): Satellite[] {
     const vSpacing = 100;
-    const minAltitude = 100;
+    const minAltitude = 800;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const satellites = [];
 
