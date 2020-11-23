@@ -2,6 +2,7 @@ import { Scene, Cameras, GameObjects } from 'phaser';
 import shipImg from '../assets/ship.png';
 import treesImg from '../assets/trees.png';
 import groundImg from '../assets/ground.png';
+import mountainsImg from '../assets/mountains.png';
 import flareImg from '../assets/rocket_flare.png';
 import backgroundImg from '../assets/space.png';
 import asteroidImg from '../assets/asteroid_32.png';
@@ -95,6 +96,7 @@ export class BootScene extends Scene {
     this.load.image('background', backgroundImg);
     this.load.image('trees', treesImg);
     this.load.image('ground', groundImg);
+    this.load.image('mountains', mountainsImg);
     this.load.image('asteroid', asteroidImg);
     this.load.image('satellite', satelliteImg);
     this.load.image('gauges/pitchInner', pitchInnerImg);

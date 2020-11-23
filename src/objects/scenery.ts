@@ -2,6 +2,7 @@ import { GameObjects, Scene, Textures } from 'phaser';
 
 export class Scenery extends GameObjects.Group {
 
+  private mountains: GameObjects.TileSprite;
   private trees: GameObjects.TileSprite;
   private sky: GameObjects.Image;
   private skyTexture: Textures.CanvasTexture;
@@ -11,15 +12,35 @@ export class Scenery extends GameObjects.Group {
 
     scene.add.existing(this);
 
+    this.createMountains();
     this.createSky();
     this.createTrees();
+
+
+    this.sky.setDepth(8);
+    this.mountains.setDepth(9);
+    this.trees.setDepth(10);
 
     // const worldBounds = scene.physics.world.bounds;
     // this.setX(worldBounds.left);
     // this.setY(worldBounds.bottom);
   }
 
-  createTrees() {
+  protected createMountains() {
+    const worldBounds = this.scene.physics.world.bounds;
+    this.mountains = this.scene.add.tileSprite(
+      worldBounds.left,
+      worldBounds.bottom,
+      worldBounds.width,
+      64,
+      'mountains',
+    );
+    this.mountains.setOrigin(0, 1);
+    this.mountains.setScale(2);
+    this.add(this.mountains);
+  }
+
+  protected createTrees() {
     const worldBounds = this.scene.physics.world.bounds;
     this.trees = this.scene.add.tileSprite(
       worldBounds.left,
@@ -33,7 +54,7 @@ export class Scenery extends GameObjects.Group {
     this.add(this.trees);
   }
 
-  createSky() {
+  protected createSky() {
     const worldBounds = this.scene.physics.world.bounds;
     const width = worldBounds.width + (this.scene.cameras.main.width / 2);
     const height = (this.scene.cameras.main.height * 1.75);
