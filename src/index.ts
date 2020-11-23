@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { WebFontLoaderPlugin } from 'phaser3-webfont-loader';
 import { MainScene } from './scenes/main-scene';
 import { TitleScene } from './scenes/title-scene';
+import { HowToPlay } from './scenes/how-to-play';
 import { BootScene } from './scenes/boot';
 import { GameOver } from './scenes/game-over';
 
@@ -33,6 +34,7 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   scene: [
     BootScene,
+    HowToPlay,
     // TitleScene,
     MainScene,
     GameOver,
