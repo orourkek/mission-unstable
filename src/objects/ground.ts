@@ -2,8 +2,8 @@ import { Physics, GameObjects, Scene } from 'phaser';
 
 export class Ground extends Physics.Arcade.Group {
 
-  private groundHeight = 500;
-  private dirt: GameObjects.Rectangle;
+  private ground: GameObjects.TileSprite;
+  private background: GameObjects.Graphics;
 
   constructor(scene: Scene) {
     super(scene.physics.world, scene, {
@@ -11,15 +11,27 @@ export class Ground extends Physics.Arcade.Group {
       allowGravity: false,
     });
 
-    const bounds = scene.physics.world.bounds;
+    const worldBounds = this.scene.physics.world.bounds;
+    const groundHeight = 200; // approximation =(
 
-    this.dirt = scene.add.rectangle(
-      bounds.centerX,
-      bounds.bottom + (this.groundHeight / 2),
-      bounds.width,
-      this.groundHeight,
-      0x3e2723,
+    this.background = scene.add.graphics();
+    this.background.fillStyle(0x2d1933, 1);
+    this.background.fillRect(
+      worldBounds.left,
+      worldBounds.bottom,
+      worldBounds.width,
+      groundHeight,
     );
-    this.add(this.dirt);
+
+    this.ground = this.scene.add.tileSprite(
+      worldBounds.left,
+      worldBounds.bottom,
+      worldBounds.width,
+      32,
+      'ground',
+    );
+    this.ground.setOrigin(0, 0);
+    this.ground.setScale(2);
+    this.add(this.ground);
   }
 }

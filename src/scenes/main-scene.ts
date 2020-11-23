@@ -53,9 +53,12 @@ export class MainScene extends Scene {
     this.bg.setScrollFactor(0);
     this.bg.setScale(0.5);
 
+    this.player = new Player(this);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.followOffset.set(0, 100);
+    // this.cameras.main.setDeadzone(0, 100);
     this.ground = new Ground(this);
     this.scenery = new Scenery(this);
-    this.player = new Player(this);
     this.asteroids = this.add.group(this.createRandomAsteroids());
     this.satellites = this.add.group(this.createRandomSatellites());
 
@@ -80,9 +83,6 @@ export class MainScene extends Scene {
         }
       }
     );
-
-    this.cameras.main.startFollow(this.player);
-    this.cameras.main.followOffset.set(0, 100);
 
     this.keyboard = {
       up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
