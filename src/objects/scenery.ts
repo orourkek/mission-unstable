@@ -1,9 +1,10 @@
-import { GameObjects, Scene } from 'phaser';
+import { GameObjects, Scene, Textures } from 'phaser';
 
 export class Scenery extends GameObjects.Group {
 
   private trees: GameObjects.TileSprite;
   private sky: GameObjects.Image;
+  private skyTexture: Textures.CanvasTexture;
 
   constructor(scene: Scene) {
     super(scene);
@@ -36,12 +37,20 @@ export class Scenery extends GameObjects.Group {
     const worldBounds = this.scene.physics.world.bounds;
     const width = worldBounds.width + (this.scene.cameras.main.width / 2);
     const height = (this.scene.cameras.main.height * 1.75);
-    const texture = this.scene.textures.createCanvas(
-      'skyGradient',
-      width,
-      height,
-    );
-    const context = texture.getContext();
+    const existing = this.scene.textures.get('skyGradient');
+
+    if (existing.key === 'skyGradient') {
+      // texture already exists (e.g. game restart)
+      this.skyTexture = existing as Textures.CanvasTexture;
+    } else {
+      this.skyTexture = this.scene.textures.createCanvas(
+        'skyGradient',
+        width,
+        height,
+      );
+    }
+
+    const context = this.skyTexture.getContext();
     const grd = context.createLinearGradient(0, 0, 0, height);
 
     grd.addColorStop(0, 'rgba(77, 166, 255, 0)');
@@ -51,7 +60,7 @@ export class Scenery extends GameObjects.Group {
     context.fillStyle = grd;
     context.fillRect(0, 0, width, height);
 
-    texture.refresh();
+    this.skyTexture.refresh();
 
     this.sky = this.scene.add.image(
       worldBounds.left,
