@@ -62,8 +62,6 @@ export class MainScene extends Scene {
     this.asteroids = this.add.group(this.createRandomAsteroids());
     this.satellites = this.add.group(this.createRandomSatellites());
 
-    this.physics.add.collider(this.player, this.ground);
-
     this.physics.add.overlap(
       this.player,
       this.asteroids,
