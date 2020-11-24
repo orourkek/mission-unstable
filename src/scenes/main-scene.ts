@@ -107,6 +107,10 @@ export class MainScene extends Scene {
     this.debugHUD.update({ time, delta });
     this.hud.update();
 
+    if (this.player.body.angularVelocity > 500) {
+      this.gameOver('lose', 'Your ship was spinning too fast!');
+    }
+
     this.bg.tilePositionX += this.player.body.deltaX() * 1;
     this.bg.tilePositionY += this.player.body.deltaY() * 1;
   }
