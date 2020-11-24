@@ -61,7 +61,7 @@ export class Player extends GameObjects.Container {
 
   public update({ time, delta, keyboard }) {
     const worldHeight = this.scene.physics.world.bounds.height;
-    const altitude = (worldHeight - this.y - (this.displayHeight / 2));
+    const altitude = (worldHeight - this.y - (this.ship.displayHeight / 2));
     this.altitude = Math.round(altitude);
 
     if (!this.launched) {
