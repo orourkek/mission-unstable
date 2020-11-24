@@ -44,12 +44,12 @@ export class HowToPlay extends Scene {
       .setFontSize(16)
       .setOrigin(0.5, 0);
 
-    this.add.text(centerX, height - 64, 'Press any key to start')
+    this.add.text(centerX, height - 64, 'Press [space] to start')
       .setFontFamily('"Press Start 2P"')
       .setFontSize(24)
       .setOrigin(0.5, 0.5);
 
-    this.input.keyboard.once('keydown', this.startGame, this);
+    this.input.keyboard.once('keydown-SPACE', this.startGame, this);
   }
 
   startGame() {

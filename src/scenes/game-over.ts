@@ -49,7 +49,7 @@ export class GameOver extends Scene {
       .setOrigin(0.5, 0.5)
       .setScrollFactor(0, 0);
 
-    this.caption = this.add.text(400, 400, 'Press any key to restart')
+    this.caption = this.add.text(400, 400, 'Press [space] to restart')
       .setName('caption')
       .setFontFamily('"Press Start 2P"')
       .setFontSize(16)
@@ -57,7 +57,7 @@ export class GameOver extends Scene {
       .setScrollFactor(0, 0)
       .setTint(0xdddddd);
 
-    this.input.keyboard.once('keydown', this.restartGame, this);
+    this.input.keyboard.once('keydown-SPACE', this.restartGame, this);
   }
 
   restartGame() {
