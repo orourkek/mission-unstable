@@ -7,7 +7,8 @@ export class Player extends GameObjects.Container {
   // Amount of drag to be applied for each additional object in the container
   public readonly DRAG_FACTOR = 25;
   public readonly MAX_VELOCITY = 300;
-  public readonly BASE_ANGULAR_ACCEL = 180;
+  public readonly ANGULAR_DRAG = 100;
+  public readonly BASE_ANGULAR_ACCEL = 200;
   public readonly BASE_ANGLE = -90;
 
   public attachedAsteroids = {
@@ -53,7 +54,7 @@ export class Player extends GameObjects.Container {
 
     this.body.setCollideWorldBounds(true);
     this.body.setMaxVelocity(this.MAX_VELOCITY);
-    // this.body.setAngularDrag(250);
+    this.body.setAngularDrag(this.ANGULAR_DRAG);
 
     this.setupThrusterParticles();
   }
