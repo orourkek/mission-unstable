@@ -11,7 +11,11 @@ export class DebugHUD extends GameObjects.Container {
   public constructor(scene: Scene, enabled = false) {
     super(scene, 16, 16);
 
-    this.enabled = enabled;
+    this.setEnabled(enabled);
+
+    this.scene.input.keyboard.on('keydown-BACKTICK', () => {
+      this.setEnabled(!this.enabled);
+    });
 
     this.text = this.scene.add.text(0, 0, '', {
       fontSize: '16px',
@@ -22,10 +26,14 @@ export class DebugHUD extends GameObjects.Container {
 
     this.add(this.text);
     this.setScrollFactor(0);
+    this.setDepth(1000);
 
-    if (this.enabled) {
-      scene.add.existing(this);
-    }
+    scene.add.existing(this);
+  }
+
+  public setEnabled(val = true) {
+    this.enabled = val;
+    this.setVisible(val);
   }
 
   public update({ time, delta }) {
