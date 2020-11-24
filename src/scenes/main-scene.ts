@@ -105,10 +105,15 @@ export class MainScene extends Scene {
     this.debugHUD.update({ time, delta });
     this.hud.update();
 
-    const { angularVelocity } = this.player.body;
+    const { angularVelocity, speed } = this.player.body;
+    const { launched, altitude } = this.player;
 
     if (angularVelocity > 750 || angularVelocity < -750) {
-      this.gameOver('lose', 'Your ship was spinning too fast!');
+      this.gameOver('lose', 'Your ship was spinning too fast');
+    }
+
+    if (launched && (altitude === 0) && (speed > 5)) {
+      this.gameOver('lose', 'Your ship crashed into the ground');
     }
 
     this.bg.tilePositionX += this.player.body.deltaX() * 1;

@@ -77,6 +77,18 @@ export class Player extends GameObjects.Container {
       this.body.velocity,
     );
 
+    if (this.angle > 0) {
+      // facing DOWN
+      if (this.body.acceleration.y < 0) {
+        this.body.setAccelerationY(0);
+      }
+    } else {
+      // facing UP
+      if (this.body.acceleration.y >= 0) {
+        this.body.setAccelerationY(this.escapeVelocity - 20);
+      }
+    }
+
     // if (keyboard.up.isDown) {
     //   this.scene.physics.velocityFromAngle(
     //     this.angle,
