@@ -227,7 +227,7 @@ export class MainScene extends Scene {
   }
 
   public gameOver(status: 'win' | 'lose') {
-    this.scene.launch('GameOver', { status });
+    this.scene.launch('GameOver', { status }).bringToTop('GameOver');
     this.scene.pause();
   }
 }

@@ -6,6 +6,10 @@ export class HowToPlay extends Scene {
     super('HowToPlay');
   }
 
+  public preload() {
+    this.scene.launch('MainScene').sendToBack('MainScene').sleep('MainScene');
+  }
+
   public create() {
     const { width, height, centerX, centerY } = this.cameras.main;
 
@@ -53,6 +57,6 @@ export class HowToPlay extends Scene {
   }
 
   startGame() {
-    this.scene.transition({ target: 'MainScene', duration: 500 });
+    this.scene.stop('HowToPlay').bringToTop('MainScene').wake('MainScene');
   }
 }
