@@ -226,8 +226,8 @@ export class MainScene extends Scene {
     );
   }
 
-  public gameOver(status: 'win' | 'lose') {
-    this.scene.launch('GameOver', { status }).bringToTop('GameOver');
+  public gameOver(status: 'win' | 'lose', message = '') {
+    this.scene.launch('GameOver', { status, message }).bringToTop('GameOver');
     this.scene.pause();
   }
 }

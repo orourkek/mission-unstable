@@ -8,9 +8,7 @@ const enum GameEndStatus {
 export class GameOver extends Scene {
 
   private status: GameEndStatus;
-  private title: GameObjects.Text;
-  private caption: GameObjects.Text;
-  private background: GameObjects.Rectangle;
+  private message: string;
 
   private bgColor: Record<GameEndStatus, number> = {
     [GameEndStatus.Win]: 0x3d6e70,
@@ -28,12 +26,13 @@ export class GameOver extends Scene {
 
   public init(data: any) {
     this.status = data.status || 'lose';
+    this.message = data.message || '';
   }
 
   public create() {
-    const { width, height } = this.cameras.main;
+    const { width, height, centerX, centerY } = this.cameras.main;
 
-    this.background = this.add.rectangle(
+    this.add.rectangle(
       0,
       0,
       width,
@@ -42,20 +41,32 @@ export class GameOver extends Scene {
       0.9
     ).setOrigin(0, 0);
 
-    this.title = this.add.text(400, 300, this.label[this.status])
-      .setName('title')
+    this.add.text(centerX, centerY - 32, this.label[this.status])
       .setFontFamily('"Press Start 2P"')
       .setFontSize(64)
       .setOrigin(0.5, 0.5)
+      .setColor('#ffffeb')
+      .setShadow(8, 8, '#272736')
       .setScrollFactor(0, 0);
 
-    this.caption = this.add.text(400, 400, 'Press [space] to restart')
-      .setName('caption')
+    if (this.message) {
+      this.add.text(centerX, centerY + 64, this.message)
+        .setFontFamily('"Press Start 2P"')
+        .setFontSize(16)
+        .setWordWrapWidth(width - 24)
+        .setLineSpacing(8)
+        .setAlign('center')
+        .setOrigin(0.5, 0)
+        .setColor('#ffe478')
+        .setScrollFactor(0, 0);
+    }
+
+    this.add.text(centerX, height - 64, 'Press [space] to restart')
       .setFontFamily('"Press Start 2P"')
-      .setFontSize(16)
+      .setFontSize(24)
       .setOrigin(0.5, 0.5)
-      .setScrollFactor(0, 0)
-      .setTint(0xdddddd);
+      .setColor('#ffffeb')
+      .setScrollFactor(0, 0);
 
     this.input.keyboard.once('keydown-SPACE', this.restartGame, this);
   }
