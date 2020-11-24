@@ -105,7 +105,9 @@ export class MainScene extends Scene {
     this.debugHUD.update({ time, delta });
     this.hud.update();
 
-    if (this.player.body.angularVelocity > 500) {
+    const { angularVelocity } = this.player.body;
+
+    if (angularVelocity > 750 || angularVelocity < -750) {
       this.gameOver('lose', 'Your ship was spinning too fast!');
     }
 
