@@ -51,7 +51,7 @@ export class MainScene extends Scene {
       'background'
     );
     this.bg.setScrollFactor(0);
-    this.bg.setScale(0.5);
+    this.bg.setScale(3);
 
     this.player = new Player(this);
     this.cameras.main.startFollow(this.player);
@@ -116,8 +116,8 @@ export class MainScene extends Scene {
       this.gameOver('lose', 'Your ship crashed into the ground');
     }
 
-    this.bg.tilePositionX += this.player.body.deltaX() * 1;
-    this.bg.tilePositionY += this.player.body.deltaY() * 1;
+    this.bg.tilePositionX += this.player.body.deltaX() * 0.25;
+    this.bg.tilePositionY += this.player.body.deltaY() * 0.25;
   }
 
   private handleAsteroidCollision(asteroid: Asteroid) {
@@ -167,7 +167,7 @@ export class MainScene extends Scene {
 
   private createRandomSatellites(): Satellite[] {
     const vSpacing = 100;
-    const minAltitude = 800;
+    const minAltitude = 1000;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const satellites = [];
 
