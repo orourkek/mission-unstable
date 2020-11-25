@@ -62,6 +62,14 @@ export class MainScene extends Scene {
     this.asteroids = this.add.group(this.createRandomAsteroids());
     this.satellites = this.add.group(this.createRandomSatellites());
 
+    this.add.image(
+      // PMath.RND.between(0, bounds.width),
+      // PMath.RND.between(2000, bounds.height * 2/3),
+      bounds.centerX,
+      bounds.height - 1500,
+      'planet'
+    ).setScale(2);
+
     this.physics.add.overlap(
       this.player,
       this.asteroids,

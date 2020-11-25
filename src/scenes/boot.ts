@@ -6,6 +6,7 @@ import mountainsImg from '../assets/mountains.png';
 import sunsetImg from '../assets/sunset.png';
 import flareImg from '../assets/rocket_flare.png';
 import backgroundImg from '../assets/space.png';
+import planetImg from '../assets/planet.png';
 import asteroidImg from '../assets/asteroid_32.png';
 import satelliteImg from '../assets/satellite.png';
 import pitchInnerImg from '../assets/gauges/pitch_inner.png';
@@ -99,6 +100,7 @@ export class BootScene extends Scene {
     this.load.image('ground', groundImg);
     this.load.image('mountains', mountainsImg);
     this.load.image('sunset', sunsetImg);
+    this.load.image('planet', planetImg);
     this.load.image('asteroid', asteroidImg);
     this.load.image('satellite', satelliteImg);
     this.load.image('gauges/pitchInner', pitchInnerImg);
