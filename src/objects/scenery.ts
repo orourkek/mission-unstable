@@ -45,7 +45,7 @@ export class Scenery extends GameObjects.Group {
       'sunset',
     );
     this.sunset.setOrigin(0, 1);
-    this.sunset.setScale(2);
+    this.sunset.setScale(3);
     this.add(this.sunset);
   }
 
