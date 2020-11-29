@@ -64,14 +64,16 @@ export class GameOver extends Scene {
     }
 
 
-    const altitudeMsg = `Max altitude: ${this.altitude}`;
-    this.add.text(centerX, height - 128, altitudeMsg)
-      .setFontFamily('"Press Start 2P"')
-      .setFontSize(24)
-      .setAlign('center')
-      .setOrigin(0.5, 0)
-      .setColor('#c2c2d1')
-      .setScrollFactor(0, 0);
+    if (this.status === GameEndStatus.Lose) {
+      const altitudeMsg = `Altitude: ${this.altitude}`;
+      this.add.text(centerX, height - 128, altitudeMsg)
+        .setFontFamily('"Press Start 2P"')
+        .setFontSize(24)
+        .setAlign('center')
+        .setOrigin(0.5, 0)
+        .setColor('#c2c2d1')
+        .setScrollFactor(0, 0);
+    }
 
     this.add.text(centerX, height - 64, 'Press [space] to restart')
       .setFontFamily('"Press Start 2P"')
