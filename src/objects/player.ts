@@ -152,6 +152,7 @@ export class Player extends GameObjects.Container {
     asteroid.setPosition(relativeX, relativeY);
     asteroid.setAngle(180 - Math.abs(Math.abs(this.angle - 0) - 180));
     asteroid.setVelocity(0, 0);
+    asteroid.setAngularVelocity(0);
     this.add(asteroid);
   }
 
