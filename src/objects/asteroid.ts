@@ -14,8 +14,12 @@ export class Asteroid extends Physics.Arcade.Image {
     this.body.setAllowGravity(false);
     this.body.setImmovable(true);
     this.setDepth(90);
+
     this.setVelocityX(
-      PMath.RND.between(10, 20) * PMath.RND.pick([ 1, -1 ])
+      PMath.RND.between(10, 30) * PMath.RND.pick([ 1, -1 ])
+    );
+    this.setAngularVelocity(
+      PMath.RND.between(5, 25) * PMath.RND.pick([ 1, -1 ])
     );
   }
 }
