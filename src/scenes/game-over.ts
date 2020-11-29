@@ -9,6 +9,7 @@ export class GameOver extends Scene {
 
   private status: GameEndStatus;
   private message: string;
+  private altitude: number;
 
   private bgColor: Record<GameEndStatus, number> = {
     [GameEndStatus.Win]: 0x3d6e70,
@@ -27,6 +28,7 @@ export class GameOver extends Scene {
   public init(data: any) {
     this.status = data.status || 'lose';
     this.message = data.message || '';
+    this.altitude = data.altitude;
   }
 
   public create() {
@@ -60,6 +62,16 @@ export class GameOver extends Scene {
         .setColor('#ffe478')
         .setScrollFactor(0, 0);
     }
+
+
+    const altitudeMsg = `Max altitude: ${this.altitude}`;
+    this.add.text(centerX, height - 128, altitudeMsg)
+      .setFontFamily('"Press Start 2P"')
+      .setFontSize(24)
+      .setAlign('center')
+      .setOrigin(0.5, 0)
+      .setColor('#c2c2d1')
+      .setScrollFactor(0, 0);
 
     this.add.text(centerX, height - 64, 'Press [space] to restart')
       .setFontFamily('"Press Start 2P"')

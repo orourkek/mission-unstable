@@ -236,7 +236,11 @@ export class MainScene extends Scene {
   }
 
   public gameOver(status: 'win' | 'lose', message = '') {
-    this.scene.launch('GameOver', { status, message }).bringToTop('GameOver');
+    this.scene.launch('GameOver', {
+      status,
+      message,
+      altitude: this.player.altitude,
+    }).bringToTop('GameOver');
     this.scene.pause();
   }
 }
