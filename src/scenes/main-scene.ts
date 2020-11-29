@@ -77,7 +77,7 @@ export class MainScene extends Scene {
       this.satellites,
       (player: Player, satellite: Satellite) => {
         if (this.customOverlapCheck(player.ship, satellite)) {
-          this.gameOver('lose', 'Your ship collided with an asteroid');
+          this.gameOver('lose', 'Your ship collided with a satellite');
         }
       }
     );
