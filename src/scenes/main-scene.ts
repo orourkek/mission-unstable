@@ -4,7 +4,7 @@ import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
 import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
-import { getOverlap } from '../util/overlap';
+import { checkOverlap } from '../util/overlap';
 import { HUD } from '../objects/hud/hud';
 import { Satellite } from '../objects/satellite';
 
@@ -66,7 +66,7 @@ export class MainScene extends Scene {
       this.player,
       this.asteroids,
       (player: Player, asteroid: Asteroid) => {
-        if (this.customOverlapCheck(player.ship, asteroid)) {
+        if (checkOverlap(player.ship, asteroid)) {
           this.handleAsteroidCollision(asteroid);
         }
       }
@@ -76,7 +76,7 @@ export class MainScene extends Scene {
       this.player,
       this.satellites,
       (player: Player, satellite: Satellite) => {
-        if (this.customOverlapCheck(player.ship, satellite)) {
+        if (checkOverlap(player.ship, satellite)) {
           this.gameOver('lose', 'Your ship collided with a satellite');
         }
       }
@@ -127,7 +127,7 @@ export class MainScene extends Scene {
       asteroid,
       this.asteroids,
       (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
-        if (this.customOverlapCheck(playerAsteroid, spaceAsteroid)) {
+        if (checkOverlap(playerAsteroid, spaceAsteroid)) {
           this.handleAsteroidCollision(spaceAsteroid);
         }
       }
@@ -136,7 +136,7 @@ export class MainScene extends Scene {
       asteroid,
       this.satellites,
       (playerAsteroid: Asteroid, satellite: Satellite) => {
-        if (this.customOverlapCheck(playerAsteroid, satellite)) {
+        if (checkOverlap(playerAsteroid, satellite)) {
           this.player.handleSatelliteCollision(playerAsteroid, satellite);
           asteroid.destroy();
           satellite.destroy();
@@ -178,61 +178,6 @@ export class MainScene extends Scene {
     }
 
     return satellites;
-  }
-
-  /**
-   * Overlap check that allows a certain amount of overlap to
-   * compensate for using AABB physics with rotated bodies.
-   */
-  private customOverlapCheck(
-    obj1: GameObjects.Components.GetBounds,
-    obj2: GameObjects.Components.GetBounds,
-  ) {
-    const obj1Bounds = obj1.getBounds();
-    const obj2Bounds = obj2.getBounds();
-    const overlap = getOverlap(obj1Bounds, obj2Bounds);
-
-    if (!overlap) {
-      return;
-    }
-
-    const overlapArea = overlap.width * overlap.height;
-    // So far in this game all assets are square, but this math should allow
-    // for non-square bounding boxes to still work with this function
-    const obj1MaxDim = Math.max(obj1Bounds.height, obj1Bounds.width);
-    const obj2MaxDim = Math.max(obj2Bounds.height, obj2Bounds.width);
-    const minOverlap = ((obj1MaxDim * 1/4) * (obj2MaxDim * 1/4));
-    // If overlap width|height is below minDimensions, consider it no overlap
-    const minDimensions = Math.min((obj1MaxDim * 1/4), (obj2MaxDim * 1/4));
-
-    if (overlapArea > minOverlap) {
-      // console.log(`area=${overlapArea.toFixed(2)} (${overlap.width.toFixed(2)} * ${overlap.height.toFixed(2)})`);
-      if (overlap.width > minDimensions && overlap.height > minDimensions) {
-        // console.log('-----------------------------------------------------');
-        return true;
-      }
-      // console.log('NOT ENOUGH OVERLAP YET');
-    } else {
-      // console.log(`area=${overlapArea.toFixed(2)} (${overlap.width.toFixed(2)} * ${overlap.height.toFixed(2)})`);
-    }
-    return false;
-  }
-
-  private overlapWithCustomCheck<
-    T1 extends GameObjects.GameObject | GameObjects.Group,
-    T2 extends GameObjects.GameObject | GameObjects.Group,
-    CBArg1 = T1 extends GameObjects.Group ? GameObjects.GameObject : T1,
-    CBArg2 = T2 extends GameObjects.Group ? GameObjects.GameObject : T2,
-  >(obj1: T1, obj2: T2, callback: (a: CBArg1, b: CBArg2) => void) {
-    this.physics.add.overlap(
-      obj1,
-      obj2,
-      (first: any, second: any) => {
-        if (this.customOverlapCheck(first, second)) {
-          callback(first, second);
-        }
-      }
-    );
   }
 
   public gameOver(status: 'win' | 'lose', message = '') {
