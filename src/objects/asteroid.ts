@@ -1,12 +1,17 @@
 import { Physics, Math as PMath, Scene } from 'phaser';
+import { v4 } from 'uuid';
 
 export class Asteroid extends Physics.Arcade.Image {
+
+  public id: string;
 
   // Override body type to be dynamic (non-static)
   public body: Physics.Arcade.Body;
 
   constructor(scene: Scene, x = 0, y = 0) {
     super(scene, x, y, 'asteroid');
+
+    this.id = v4();
 
     scene.add.existing(this);
     scene.physics.add.existing(this);
