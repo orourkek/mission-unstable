@@ -5,7 +5,7 @@ import { WeightDistributionIndicator } from './weight-distribution';
 
 export class HUD {
 
-  public padding = 16;
+  public padding = 10;
   public scene: MainScene;
 
   public background: GameObjects.Rectangle;
