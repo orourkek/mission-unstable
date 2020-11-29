@@ -1,4 +1,4 @@
-import { Physics, GameObjects, Scene } from 'phaser';
+import { Physics, Math as PMath, Scene } from 'phaser';
 
 export class Asteroid extends Physics.Arcade.Image {
 
@@ -14,5 +14,8 @@ export class Asteroid extends Physics.Arcade.Image {
     this.body.setAllowGravity(false);
     this.body.setImmovable(true);
     this.setDepth(90);
+    this.setVelocityX(
+      PMath.RND.between(10, 20) * PMath.RND.pick([ 1, -1 ])
+    );
   }
 }
