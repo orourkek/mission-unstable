@@ -8,6 +8,8 @@ export class Asteroid extends Physics.Arcade.Image {
   // Override body type to be dynamic (non-static)
   public body: Physics.Arcade.Body;
 
+  public touching: any[] = [];
+
   constructor(scene: Scene, x = 0, y = 0) {
     super(scene, x, y, 'asteroid');
 

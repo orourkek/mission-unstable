@@ -1,11 +1,12 @@
 import { GameObjects, Math as PMath, Physics, Scene } from 'phaser';
+import { checkOverlap } from '../util/overlap';
 import { Asteroid } from './asteroid';
 import { Satellite } from './satellite';
 
 export class Player extends GameObjects.Container {
 
   // Amount of drag to be applied for each additional object in the container
-  public readonly DRAG_FACTOR = 25;
+  public readonly DRAG_FACTOR = 0;
   public readonly MAX_VELOCITY = 275;
   public readonly ANGULAR_DRAG = 100;
   public readonly BASE_ANGULAR_ACCEL = 200;
@@ -157,6 +158,7 @@ export class Player extends GameObjects.Container {
   }
 
   public handleSatelliteCollision(asteroid: Asteroid, satellite: Satellite) {
+    const removed: string[] = [];
     this.each((pObj: GameObjects.GameObject) => {
       if (!(pObj instanceof Asteroid)) {
         return;
@@ -176,9 +178,29 @@ export class Player extends GameObjects.Container {
         } else if (pObj.y > 0) {
           this.attachedAsteroids.right--;
         }
+        removed.push(pObj.id);
         pObj.destroy();
       }
-    })
+    });
+    // removed.forEach((id) => {});
+    this.each((pObj: GameObjects.GameObject) => {
+      if (!(pObj instanceof Asteroid)) {
+        return;
+      }
+      let overlap = false;
+      this.iterate((pObjInner: GameObjects.GameObject) => {
+        if (!(pObjInner instanceof Asteroid)) {
+          return;
+        }
+        if (checkOverlap(pObj, pObjInner)) {
+          overlap = true;
+        }
+      });
+      if (!overlap) {
+        console.log(`Asteroid ${pObj.id} no longer overlaps anything`);
+        pObj.destroy();
+      }
+    });
   }
 
   protected setupThrusterParticles() {

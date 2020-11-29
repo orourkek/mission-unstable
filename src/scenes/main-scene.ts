@@ -128,6 +128,8 @@ export class MainScene extends Scene {
       this.asteroids,
       (playerAsteroid: Asteroid, spaceAsteroid: Asteroid) => {
         if (checkOverlap(playerAsteroid, spaceAsteroid)) {
+          playerAsteroid.touching.push(spaceAsteroid.id);
+          spaceAsteroid.touching.push(playerAsteroid.id);
           this.handleAsteroidCollision(spaceAsteroid);
         }
       }
@@ -146,7 +148,7 @@ export class MainScene extends Scene {
   }
 
   private createRandomAsteroids(): Asteroid[] {
-    const vSpacing = 25;
+    const vSpacing = 20;
     const hSpacing = 2000;
     const minAltitude = 600;
     const { bottom, width, centerX } = this.physics.world.bounds;
@@ -166,7 +168,7 @@ export class MainScene extends Scene {
   }
 
   private createRandomSatellites(): Satellite[] {
-    const vSpacing = 100;
+    const vSpacing = 200;
     const minAltitude = 1000;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const satellites = [];
