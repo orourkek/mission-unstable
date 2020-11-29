@@ -35,11 +35,12 @@ export class HowToPlay extends Scene {
       .setOrigin(0.5, 0.5);
 
     const howTo = [
-      '🚀 Reach for the stars...',
-      '🚀 Use [W] to launch, [A] & [D] to move',
-      '🚀 Avoid asteroids - they will stick',
-      '🚀 Hit a satellite to shed stuck asteroids',
+      '🚀 Reach the highest altitude you can',
+      '🚀 Use [SPACE] to launch, [A]/[D] to move',
+      '🚀 Avoid asteroids - they will stick to\n  the ship and affect controls',
+      '🚀 Hit a satellite with stuck asteroids\n  to shed them',
       '🚀 Don\'t hit satellites with your ship',
+      '🚀 Don\'t crash into the ground',
     ];
 
     const instructions = this.add.text(centerX, 128, howTo.join('\n'))
