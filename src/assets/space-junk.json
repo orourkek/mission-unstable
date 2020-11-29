@@ -1,0 +1,77 @@
+{
+  "textures": [
+    {
+      "image": "space-junk.png",
+      "size": {
+        "w": 512,
+        "h": 512
+      },
+      "scale": 1,
+      "frames": [
+        {
+          "filename": "kitchen-sink",
+          "frame": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "toaster",
+          "frame": { "x": 32, "y": 0, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "coffee-cup",
+          "frame": { "x": 64, "y": 0, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "teddy-bear",
+          "frame": { "x": 96, "y": 0, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "petunias",
+          "frame": { "x": 0, "y": 32, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "cupcake",
+          "frame": { "x": 96, "y": 32, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        },
+        {
+          "filename": "barbell",
+          "frame": { "x": 0, "y": 64, "w": 32, "h": 32 },
+          "rotated": false,
+          "trimmed": false,
+          "spriteSourceSize": { "x": 0, "y": 0, "w": 32, "h": 32 },
+          "sourceSize": { "w": 32, "h": 32 },
+          "pivot": { "x": 0.5, "y": 0.5 }
+        }
+      ]
+    }
+  ]
+}

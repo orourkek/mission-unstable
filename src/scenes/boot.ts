@@ -13,7 +13,10 @@ import pitchFrameImg from '../assets/gauges/pitch_frame.png';
 import wdFrameImg from '../assets/gauges/wd_frame.png';
 import wdBgImg from '../assets/gauges/wd_bg.png';
 import wdLineImg from '../assets/gauges/wd_line.png';
-
+import spaceJunkAtlas from '../assets/space-junk-atlas';
+import spaceJunkAtlasJSON from '../assets/space-junk.json';
+import spaceJunkSprite from '!!file-loader?name=[hash]/[name].[ext]!../assets/space-junk.png';
+// import spaceJunkSprite from '../assets/space-junk.png';
 export class BootScene extends Scene {
 
   private progressBar: GameObjects.Graphics;
@@ -106,6 +109,17 @@ export class BootScene extends Scene {
     this.load.image('gauges/wdFrame', wdFrameImg);
     this.load.image('gauges/wdBg', wdBgImg);
     this.load.image('gauges/wdLine', wdLineImg);
+    // console.log(spaceJunkAtlas);
+    // console.log(spaceJunkAtlasJSON);
+    this.load.multiatlas(
+      'spaceJunk',
+      spaceJunkAtlas as any,
+      spaceJunkSprite.split('/').shift()
+    );
+    // this.load.spritesheet('spaceJunk', spaceJunkSprite, {
+    //   frameWidth: 32,
+    //   frameHeight: 32,
+    // });
     this.load.webfont(
       'Press Start 2P',
       'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'

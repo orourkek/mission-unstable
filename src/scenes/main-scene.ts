@@ -62,6 +62,26 @@ export class MainScene extends Scene {
     this.asteroids = this.add.group(this.createRandomAsteroids());
     this.satellites = this.add.group(this.createRandomSatellites());
 
+    for (let i = 0; i < 1000; i += 50) {
+      // this.add.sprite(
+      //   bounds.centerX,
+      //   bounds.height - i,
+      //   'spaceJunk',
+      //   PMath.RND.between(0, 48),
+      // ).setDepth(99999);
+      const frames = this.textures.get('spaceJunk').getFrameNames();
+      this.add.image(
+        bounds.centerX,
+        bounds.height - i,
+        'spaceJunk',
+        PMath.RND.pick(frames),
+      ).setDepth(99999);
+    }
+
+    // this.add.image(bounds.centerX, bounds.height - 100, 'spaceJunk', 'kitchen-sink').setDepth(99999);
+    // this.add.image(bounds.centerX, bounds.height - 200, 'spaceJunk', 'petunias').setDepth(99999);
+    // this.add.image(bounds.centerX, bounds.height - 300, 'spaceJunk', 'barbell').setDepth(99999);
+
     this.physics.add.overlap(
       this.player,
       this.asteroids,
