@@ -29,7 +29,6 @@ export class AltitudeIndicator extends GameObjects.Group {
     scene.add.existing(this);
 
     const { displayHeight, displayWidth } = this.text;
-    console.log(displayHeight, bottom);
     const x = left + (displayWidth / 2);
     const y = bottom - (displayHeight);
 
