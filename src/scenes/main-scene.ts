@@ -4,7 +4,7 @@ import { Ground } from '../objects/ground';
 import { Scenery } from '../objects/scenery';
 import { Asteroid } from '../objects/asteroid';
 import { DebugHUD } from '../objects/debug-hud';
-import { getOverlap } from '../util/get-overlap';
+import { getOverlap } from '../util/overlap';
 import { HUD } from '../objects/hud/hud';
 import { Satellite } from '../objects/satellite';
 
