@@ -18,6 +18,10 @@ export class WeightDistributionIndicator extends GameObjects.Group {
     return this.frame.displayHeight;
   }
 
+  get right() {
+    return this.frame.getBounds().right;
+  }
+
   constructor(scene: Scene, left: number, bottom: number) {
     super(scene);
 

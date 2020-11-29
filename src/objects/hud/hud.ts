@@ -1,6 +1,7 @@
 import { GameObjects } from 'phaser';
 import { MainScene } from '../../scenes/main-scene';
 import { PitchIndicator } from './pitch';
+import { AltitudeIndicator } from './altitude';
 import { WeightDistributionIndicator } from './weight-distribution';
 
 export class HUD {
@@ -10,6 +11,7 @@ export class HUD {
 
   public background: GameObjects.Rectangle;
   public pitchIndicator: PitchIndicator;
+  public altitudeIndicator: AltitudeIndicator;
   public weightDistributionIndicator: WeightDistributionIndicator;
 
   constructor(scene: MainScene) {
@@ -32,15 +34,23 @@ export class HUD {
       (bottom - 2 * this.padding),
     ).setDepth(depth);
 
+    this.altitudeIndicator = new AltitudeIndicator(
+      this.scene,
+      (this.weightDistributionIndicator.right + this.padding),
+      (bottom - 2 * this.padding),
+    ).setDepth(depth);
+
     const gaugeHeight = Math.max(
       this.pitchIndicator.displayHeight,
       this.weightDistributionIndicator.displayHeight,
+      this.altitudeIndicator.displayHeight,
     );
     const bgHeight = gaugeHeight + (3 * this.padding);
     const bgWidth = (
-      (3 * this.padding) +
+      (4 * this.padding) +
       this.pitchIndicator.displayWidth +
-      this.weightDistributionIndicator.displayWidth
+      this.weightDistributionIndicator.displayWidth +
+      this.altitudeIndicator.displayWidth
     );
 
     this.background = this.scene.add.rectangle(
@@ -55,5 +65,6 @@ export class HUD {
   public update() {
     this.pitchIndicator.update();
     this.weightDistributionIndicator.update();
+    this.altitudeIndicator.update();
   }
 }
