@@ -35,7 +35,7 @@ export class MainScene extends Scene {
     this.physics.world.setBounds(
       0,
       0,
-      (gameWidth * 3),
+      (gameWidth * 5),
       (gameHeight * 20),
     );
 
