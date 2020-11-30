@@ -177,15 +177,19 @@ export class MainScene extends Scene {
       // chance of extras increasing as altitude gets closer to the top.
       if (y < 1000) {
         if (PMath.RND.pick([0, 1, 1])) {
+          asteroids.push(new Asteroid(this, x, Math.round(y + vSpacing / 2)));
           asteroids.push(new Asteroid(this, x, y));
+          asteroids.push(new Asteroid(this, x, Math.round(y - vSpacing / 2)));
         }
       } else if (y < 3000) {
         if (PMath.RND.pick([0, 0, 0, 1])) {
           asteroids.push(new Asteroid(this, x, y));
+          asteroids.push(new Asteroid(this, x, Math.round(y - vSpacing / 2)));
         }
       } else if (y < 6000) {
         if (PMath.RND.pick([0, 0, 0, 0, 0, 1])) {
           asteroids.push(new Asteroid(this, x, y));
+          asteroids.push(new Asteroid(this, x, Math.round(y - vSpacing / 2)));
         }
       }
 
