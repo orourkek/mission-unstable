@@ -36,7 +36,7 @@ export class MainScene extends Scene {
       0,
       0,
       (gameWidth * 5),
-      (gameHeight * 20),
+      (gameHeight * 20) + 64,
     );
 
     this.cameras.main.setSize(gameWidth, gameHeight);
@@ -158,7 +158,7 @@ export class MainScene extends Scene {
     const vSpacing = 25;
     const hSpacing = 2000;
     const minAltitude = 600;
-    const { bottom, width, centerX } = this.physics.world.bounds;
+    const { bottom, width, height, centerX } = this.physics.world.bounds;
     const asteroids = [];
     let lastX = centerX;
 
@@ -168,6 +168,23 @@ export class MainScene extends Scene {
         Math.min(width, (lastX + hSpacing / 2)),
       );
       asteroids.push(new Asteroid(this, x, y));
+
+      // Semi-randomly add more asteroids at the same altitude, with the
+      // chance of extras increasing as altitude gets closer to the top.
+      if (y < 1000) {
+        if (PMath.RND.pick([0, 1, 1])) {
+          asteroids.push(new Asteroid(this, x, y));
+        }
+      } else if (y < 3000) {
+        if (PMath.RND.pick([0, 0, 0, 1])) {
+          asteroids.push(new Asteroid(this, x, y));
+        }
+      } else if (y < 6000) {
+        if (PMath.RND.pick([0, 0, 0, 0, 0, 1])) {
+          asteroids.push(new Asteroid(this, x, y));
+        }
+      }
+
       lastX = x;
     }
 
