@@ -13,7 +13,7 @@ import pitchFrameImg from '../assets/gauges/pitch_frame.png';
 import wdFrameImg from '../assets/gauges/wd_frame.png';
 import wdBgImg from '../assets/gauges/wd_bg.png';
 import wdLineImg from '../assets/gauges/wd_line.png';
-import launchMp3 from '../assets/audio/shuttle-launch.mp3';
+import launchMp3 from '../assets/audio/8bit-engine.mp3';
 import collisionMp3 from '../assets/audio/kick.mp3';
 import explosionMp3 from '../assets/audio/space-explosion.mp3';
 import winSound from '../assets/audio/win.mp3';

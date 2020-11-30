@@ -125,8 +125,8 @@ export class Player extends GameObjects.Container {
     this.thrusterEmitter.start();
     this.body.setAccelerationY(this.escapeVelocity - 20);
     this.scene.sound.play('shuttleLaunch', {
-      volume: 0.4,
-      seek: 1,
+      volume: 0.8,
+      seek: 2,
     });
   }
 
