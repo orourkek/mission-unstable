@@ -130,6 +130,7 @@ export class MainScene extends Scene {
   private handleAsteroidCollision(asteroid: Asteroid) {
     this.asteroids.remove(asteroid);
     this.player.subsumeAsteroid(asteroid);
+    this.sound.play('collision', { volume: 0.4 });
     this.physics.add.overlap(
       asteroid,
       this.asteroids,
@@ -144,6 +145,7 @@ export class MainScene extends Scene {
       this.satellites,
       (playerAsteroid: Asteroid, satellite: Satellite) => {
         if (checkOverlap(playerAsteroid, satellite)) {
+          this.sound.play('explosion', { volume: 0.5 });
           this.player.handleSatelliteCollision(playerAsteroid, satellite);
           asteroid.destroy();
           satellite.destroy();
@@ -188,6 +190,7 @@ export class MainScene extends Scene {
   }
 
   public gameOver(status: 'win' | 'lose', message = '') {
+    this.sound.stopAll();
     this.scene.launch('GameOver', {
       status,
       message,

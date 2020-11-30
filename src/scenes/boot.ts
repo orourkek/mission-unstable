@@ -13,6 +13,9 @@ import pitchFrameImg from '../assets/gauges/pitch_frame.png';
 import wdFrameImg from '../assets/gauges/wd_frame.png';
 import wdBgImg from '../assets/gauges/wd_bg.png';
 import wdLineImg from '../assets/gauges/wd_line.png';
+import launchMp3 from '../assets/audio/shuttle-launch.mp3';
+import collisionMp3 from '../assets/audio/kick.mp3';
+import explosionMp3 from '../assets/audio/space-explosion.mp3';
 
 export class BootScene extends Scene {
 
@@ -110,5 +113,8 @@ export class BootScene extends Scene {
       'Press Start 2P',
       'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'
     );
+    this.load.audio('shuttleLaunch', launchMp3);
+    this.load.audio('collision', collisionMp3);
+    this.load.audio('explosion', explosionMp3);
   }
 }
