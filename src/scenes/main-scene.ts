@@ -122,7 +122,7 @@ export class MainScene extends Scene {
       return;
     }
 
-    if (launched && (altitude === 0) && (speed > 5)) {
+    if (launched && (altitude === 0) && (speed > 10)) {
       this.gameOver('lose', 'Your ship crashed into the ground');
       return;
     }
