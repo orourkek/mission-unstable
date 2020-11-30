@@ -5,6 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
+    "pack": "npm run build && zip mission-unstable dist/*",
     "watch": "webpack --config webpack.config.js --watch",
     "start": "webpack serve --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
