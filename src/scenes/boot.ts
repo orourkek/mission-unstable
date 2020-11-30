@@ -18,6 +18,8 @@ import collisionMp3 from '../assets/audio/kick.mp3';
 import explosionMp3 from '../assets/audio/space-explosion.mp3';
 import winSound from '../assets/audio/win.mp3';
 import loseSound from '../assets/audio/lose.mp3';
+import muteIcon from '../assets/mute-icon.png';
+import muteIconX from '../assets/mute-icon-x.png';
 
 export class BootScene extends Scene {
 
@@ -120,5 +122,7 @@ export class BootScene extends Scene {
     this.load.audio('explosion', explosionMp3);
     this.load.audio('win', winSound);
     this.load.audio('lose', loseSound);
+    this.load.image('mute-icon', muteIcon);
+    this.load.image('mute-icon-x', muteIconX);
   }
 }

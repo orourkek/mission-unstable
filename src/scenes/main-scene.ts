@@ -7,6 +7,7 @@ import { DebugHUD } from '../objects/debug-hud';
 import { checkOverlap } from '../util/overlap';
 import { HUD } from '../objects/hud/hud';
 import { Satellite } from '../objects/satellite';
+import { MuteButton } from '../objects/mute-button';
 
 export class MainScene extends Scene {
 
@@ -15,6 +16,7 @@ export class MainScene extends Scene {
   };
 
   public bg: GameObjects.TileSprite;
+  public muteButton: MuteButton;
   public ground: Ground;
   public scenery: Scenery;
   public player: Player;
@@ -61,6 +63,8 @@ export class MainScene extends Scene {
     this.scenery = new Scenery(this);
     this.asteroids = this.add.group(this.createRandomAsteroids());
     this.satellites = this.add.group(this.createRandomSatellites());
+
+    this.muteButton = new MuteButton(this);
 
     this.physics.add.overlap(
       this.player,
