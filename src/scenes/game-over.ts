@@ -83,6 +83,8 @@ export class GameOver extends Scene {
       .setScrollFactor(0, 0);
 
     this.input.keyboard.once('keydown-SPACE', this.restartGame, this);
+
+    this.sound.play(this.status);
   }
 
   restartGame() {

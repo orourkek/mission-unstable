@@ -16,6 +16,8 @@ import wdLineImg from '../assets/gauges/wd_line.png';
 import launchMp3 from '../assets/audio/shuttle-launch.mp3';
 import collisionMp3 from '../assets/audio/kick.mp3';
 import explosionMp3 from '../assets/audio/space-explosion.mp3';
+import winSound from '../assets/audio/win.mp3';
+import loseSound from '../assets/audio/lose.mp3';
 
 export class BootScene extends Scene {
 
@@ -116,5 +118,7 @@ export class BootScene extends Scene {
     this.load.audio('shuttleLaunch', launchMp3);
     this.load.audio('collision', collisionMp3);
     this.load.audio('explosion', explosionMp3);
+    this.load.audio('win', winSound);
+    this.load.audio('lose', loseSound);
   }
 }
