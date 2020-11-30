@@ -6,10 +6,6 @@ export class HowToPlay extends Scene {
     super('HowToPlay');
   }
 
-  public preload() {
-    this.scene.launch('MainScene').sendToBack('MainScene').sleep('MainScene');
-  }
-
   public create() {
     const { width, height, centerX, centerY } = this.cameras.main;
 

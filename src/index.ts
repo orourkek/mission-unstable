@@ -34,8 +34,8 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   scene: [
     BootScene,
+    TitleScene,
     HowToPlay,
-    // TitleScene,
     MainScene,
     GameOver,
   ],

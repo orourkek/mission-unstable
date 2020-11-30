@@ -91,7 +91,7 @@ export class BootScene extends Scene {
 
       this.time.delayedCall(50, () => {
         this.scene.transition({
-          target: 'HowToPlay',
+          target: 'TitleScene',
           duration: 500,
         });
       });
