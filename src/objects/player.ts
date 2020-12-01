@@ -5,10 +5,10 @@ import { Satellite } from './satellite';
 export class Player extends GameObjects.Container {
 
   // Amount of drag to be applied for each additional object in the container
-  public readonly DRAG_FACTOR = 30;
+  public readonly DRAG_FACTOR = 20;
   public readonly MAX_VELOCITY = 250;
   public readonly ANGULAR_DRAG = 80;
-  public readonly BASE_ANGULAR_ACCEL = 200;
+  public readonly BASE_ANGULAR_ACCEL = 220;
   public readonly BASE_ANGLE = -90;
 
   public attachedAsteroids = {

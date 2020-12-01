@@ -164,50 +164,53 @@ export class MainScene extends Scene {
     const minAltitude = 600;
     const { bottom, width, height, centerX } = this.physics.world.bounds;
     const asteroids = [];
-    let lastX = centerX;
+    const rX = () => PMath.RND.between(
+      centerX - hSpacing,
+      centerX + hSpacing
+    );
 
     for (let y = (bottom - minAltitude); y > 0; y -= vSpacing) {
-      const x = PMath.RND.between(
-        Math.max(0, (lastX - hSpacing / 2)),
-        Math.min(width, (lastX + hSpacing / 2)),
-      );
-      asteroids.push(new Asteroid(this, x, y));
+      asteroids.push(new Asteroid(this, rX(), y));
 
       // Semi-randomly add more asteroids at the same altitude, with the
       // chance of extras increasing as altitude gets closer to the top.
       if (y < 1000) {
-        if (PMath.RND.pick([0, 1, 1])) {
+        if (PMath.RND.pick([0, 1, 1, 1])) {
           // asteroids.push(new Asteroid(this, x, (y + vSpacing / 2), 40, 80));
-          asteroids.push(new Asteroid(this, x, y, 60, 160));
-          asteroids.push(new Asteroid(this, x, (y - vSpacing / 2), 60, 160));
+          asteroids.push(new Asteroid(this, rX(), y, 60, 160));
+          asteroids.push(new Asteroid(this, rX(), (y - vSpacing / 2), 60, 160));
         }
       } else if (y < 3000) {
         if (PMath.RND.pick([0, 1])) {
-          asteroids.push(new Asteroid(this, x, y, 40));
-          asteroids.push(new Asteroid(this, x, (y - vSpacing / 2), 40));
+          asteroids.push(new Asteroid(this, rX(), y, 60));
+          asteroids.push(new Asteroid(this, rX(), y, 40));
         }
       } else if (y < 6000) {
-        if (PMath.RND.pick([0, 0, 0, 1])) {
-          asteroids.push(new Asteroid(this, x, y));
-          asteroids.push(new Asteroid(this, x, (y - vSpacing / 2)));
+        if (PMath.RND.pick([0, 1])) {
+          asteroids.push(new Asteroid(this, rX(), y));
+          asteroids.push(new Asteroid(this, rX(), y));
+        }
+      } else if (y < 8000) {
+        if (PMath.RND.pick([0, 0, 1])) {
+          asteroids.push(new Asteroid(this, rX(), y));
         }
       }
 
-      lastX = x;
+      // lastX = x;
     }
 
     return asteroids;
   }
 
   private createRandomSatellites(): Satellite[] {
-    const vSpacing = 80;
+    const vSpacing = 75;
     const minAltitude = 1200;
     const { bottom, width, centerX } = this.physics.world.bounds;
     const satellites = [];
 
     for (let y = (bottom - minAltitude); y > 0; y -= vSpacing) {
       const x = PMath.RND.between(0, width);
-      const velocity = (PMath.RND.between(25, 200) * PMath.RND.pick([ 1, -1 ]));
+      const velocity = (PMath.RND.between(20, 180) * PMath.RND.pick([ 1, -1 ]));
       satellites.push(new Satellite(this, { x, y, velocity }));
     }
 
